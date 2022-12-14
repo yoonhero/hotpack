@@ -3,19 +3,23 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import { BaseLayout } from "../components/base_layout";
-import { Button } from "../components/btn";
-import { handleCopyClipBoard } from "../utils/clipboard";
+import { BaseLayout } from "../../components/base_layout";
+import { Button } from "../../components/btn";
+import { handleCopyClipBoard } from "../../utils/clipboard";
+import { TemperatureBox } from "../../components/temperature";
 
 const HotPack = () => {
     const router = useRouter();
 
-    const [isOwner, setIsOwner] = useState(true);
+    const [isOwner, setIsOwner] = useState(false);
+    const [hotpackID, setHotpackID] = useState("");
     const [hotpackName, setHotPackName] = useState("윤승현");
     const [temperature, setTemperature] = useState(65);
     const [messageCount, setMessageCount] = useState(100);
 
-    // router.query.id;
+    useEffect(() => {
+        setHotpackID(router.query.uid);
+    }, []);
 
     return (
         <BaseLayout>
@@ -34,10 +38,7 @@ const HotPack = () => {
                     </div>
                 </div>
 
-                {/* 온도 */}
-                <div className='px-3 py-1 border border-[3px] border-red-500 rounded-2xl'>
-                    <span className='text-2xl font-bold text-red-500 '>{temperature}°</span>
-                </div>
+                <TemperatureBox temperature={temperature} />
             </div>
 
             <div className='mt-[1.4375rem]'></div>
@@ -50,7 +51,7 @@ const HotPack = () => {
                 {!isOwner ? (
                     // 주인이 아니라 손님이 들어온다면
                     <>
-                        <Button bgColor='bg-[#ff5d56]' onClickFunction={() => router.push("/write")}>
+                        <Button bgColor='bg-[#ff5d56]' onClickFunction={() => router.push(`/write/${router.query.uid}`)}>
                             <div className='flex flex-row items-center justify-center gap-2'>
                                 <Image width={25} height={25} src='/warm.svg' />
                                 <span className='font-semibold'>핫팩에 메세지 남겨주기</span>
