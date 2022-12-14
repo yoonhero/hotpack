@@ -23,12 +23,12 @@ const HotPack = () => {
 
     return (
         <BaseLayout>
-            <div className='w-[37.5rem]  flex flex-row justify-between items-center'>
+            <div className='w-full md:w-[37.5rem]  flex flex-row justify-around md:justify-between items-center'>
                 {/* 주인 */}
                 <div className=''>
                     <div>
-                        <span className='text-4xl text-rose-500 font-extrabold'>{hotpackName}</span>
-                        <span className='text-3xl text-gray-600 font-semibold'>님의 핫팩</span>
+                    <span className='text-2xl md:text-4xl text-rose-500 font-extrabold'>{hotpackName}</span>
+                        <span className='text-xl md:text-3xl text-gray-600 font-semibold'>님의 핫팩</span>
                     </div>
 
                     <div>
@@ -43,8 +43,8 @@ const HotPack = () => {
 
             <div className='mt-[1.4375rem]'></div>
 
-            <div className='relative w-[40.687rem] my-2'>
-                <Image alt='HOTPACK' src='/hotpack.jpeg' width={300} height={300} layout='responsive' objectFit='contain' />
+            <div className='relative w-full md:w-[40.687rem] my-2'>
+                <Image alt='HOTPACK' src='/hotpack.jpeg' width={100} height={100} layout='responsive' objectFit='contain' />
             </div>
 
             <div className='w-full flex flex-col items-center my-5'>

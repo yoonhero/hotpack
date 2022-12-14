@@ -37,16 +37,16 @@ const WriteMessage = () => {
 
     return (
         <BaseLayout>
-            <div className='w-[37.5rem]  flex flex-row justify-between items-center'>
+            <div className='w-full md:w-[37.5rem]  flex flex-row justify-around md:justify-between items-center'>
                 {/* 주인 */}
                 <div className=''>
                     <div>
-                        <span className='text-4xl text-rose-500 font-extrabold'>{hotpackName}</span>
-                        <span className='text-3xl text-gray-600 font-semibold'>님의</span>
+                        <span className='text-2xl md:text-4xl text-rose-500 font-extrabold'>{hotpackName}</span>
+                        <span className='text-xl md:text-3xl text-gray-600 font-semibold'>님의 핫팩</span>
                     </div>
 
                     <div>
-                        <span className='text-3xl text-gray-600 font-semibold'>핫팩 온도를 높여주세요!</span>
+                        <span className='text-xl md:text-3xl text-gray-600 font-semibold'>핫팩 온도를 높여주세요!</span>
                     </div>
                 </div>
 
@@ -55,6 +55,12 @@ const WriteMessage = () => {
 
             <div className='w-full mt-[2.4375rem]'>
                 <Paper onSubmit={handleSubmit(onValid)} ref={componentRef}>
+                    <div className='pt-4 pl-20 pb-0'>
+                        <h1 className='mb-2  text-2xl font-bold text-gray-700 l-2'>누구로부터:</h1>
+
+                        <input placeholder='작성자' className='bg-transparent font-bold w-full py-0 px-0 text-xl text-gray-800 outline-none' />
+                    </div>
+                    <div className="mt-1 w-full h-[2px] bg-[#91d1d3]"></div>
                     <PaperContent>
                         <LetterText placeholder='따뜻한 말을 적어주세요!' {...register("card_text", { required: true })} />
                     </PaperContent>
@@ -69,7 +75,7 @@ const WriteMessage = () => {
                 </button>
 
                 <button className='cursor-pointer bg-[#ff5d56] w-full h-[3.5rem] rounded-[1rem]'>
-                    <span className='text-white text-md font-bold'>핫팩에 메세지 보내기</span>
+                    <span className='text-white text-md font-bold'>"{hotpackName}"에게 메세지 남기기</span>
                 </button>
             </div>
         </BaseLayout>
