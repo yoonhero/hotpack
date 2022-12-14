@@ -55,8 +55,8 @@ const WriteMessage = () => {
 
             <div className='w-full mt-[2.4375rem]'>
                 <Paper onSubmit={handleSubmit(onValid)} ref={componentRef}>
-                    <div className='pt-4 pl-20 pb-0'>
-                        <h1 className='mb-2  text-2xl font-bold text-gray-700 l-2'>누구로부터:</h1>
+                    <div className='pt-4 pl-[50px] md:pl-20 pb-0'>
+                        <h1 className='mb-2 font-sans text-2xl font-bold text-gray-700 l-2'>FROM:</h1>
 
                         <input placeholder='작성자' className='bg-transparent font-bold w-full py-0 px-0 text-xl text-gray-800 outline-none' />
                     </div>

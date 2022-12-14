@@ -27,6 +27,10 @@ const Paper = styled.div`
     }
 
     @media only screen and (max-width: 780px) {
+        &:before{
+            width: 30px;
+            border-right:none;
+        }
         width: 100%;
     }
 `;
@@ -58,13 +62,14 @@ const LetterText = styled.textarea`
     background: transparent;
     font-family: "Jua", sans-serif;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
     box-sizing: border-box;
     z-index: 1;
     resize: none;
     color: rgba(0, 0, 0, 0.7);
     @media only screen and (max-width: 580px) {
-        width: 70%;
+        width: 100%;
+        padding-left: 50px;
     }
 `;
 
