@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 
 
-
+/* CSS */
 const style = css`
  *{
   margin-left : 10px;
@@ -46,7 +46,7 @@ export default function App() {
     dataset= data;
 
     if(dataset.id == example_id && dataset.passward == example_pw){
-      location.assign("../")
+      location.assign("../join/pages/join")
     }
     else{
       alert("유효하지 않은 회원정보입니다");

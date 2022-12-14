@@ -4,8 +4,6 @@ import Image from 'next/image';
 import {Button} from "@chakra-ui/react";
 import { ClassNames } from '@emotion/react';
 
-
-{/*CSS*/}
 const style = css`
  *{
   margin-left : 15px;
@@ -30,7 +28,6 @@ const style = css`
 export default function Home() {
   return (
     <>
-      
        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <title>HotPack</title>
 
