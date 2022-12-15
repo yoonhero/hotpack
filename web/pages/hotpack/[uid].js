@@ -14,16 +14,54 @@ const HotPack = () => {
     const [isOwner, setIsOwner] = useState(false);
     const [hotpackID, setHotpackID] = useState("");
     const [hotpackName, setHotPackName] = useState("윤승현");
-    const [temperature, setTemperature] = useState(65);
+    const [temperature, setTemperature] = useState(undefined);
     const [messageCount, setMessageCount] = useState(100);
+    const [hotpackImg, setHotpackImg] = useState("")
+    const [modal, setModal] = useState(false)
 
     useEffect(() => {
         setHotpackID(router.query.uid);
+        setTemperature(40)
     }, []);
 
+    useEffect(() => {
+        if (temperature == undefined){
+            return 
+        }
+
+        const hotpackImgs = [10, 20, 30, 40, 50, 60, 70, 80, 90, 99, 100]
+
+        for (let i = 0; i<hotpackImgs.length;i++){
+            if (temperature <= hotpackImgs[i]){
+                setHotpackImg(`/${hotpackImgs[i]}.gif`)
+                break
+            }
+        }
+    }, [temperature])
+
+    useEffect(() => {
+        if (router.query.t) {
+            setModal(true)
+        }
+    }, [router])
+
     return (
+        <>
+        <Head>
+            <title>{hotpackName||""}님의 핫팩</title>
+        </Head>
         <BaseLayout>
-            <div className='w-full md:w-[37.5rem]  flex flex-row justify-around md:justify-between items-center'>
+            {modal && (
+                <div onClick={() => setModal(false)} className="fixed top-0 left-0 z-10 flex flex-col items-center justify-center w-screen h-screen overflow-x-hidden overflow-y-auto md:inset-0 modal">
+                    <div className="shadow flex flex-col items-center justify-center z-20 p-10 md:p-20 top-[20vh] w-[300px] h-[300px] rounded-full bg-red-200 shadow-lg shadow-red-300px/50 ">
+
+                        <span className="animate-ping text-white text-5xl font-extrabold">{router.query.t || router.query.t}</span>
+                    
+                    </div>
+                </div>
+            )}
+            
+            <div className='mt-10 w-full md:w-[37.5rem]  flex flex-row justify-around md:justify-between items-center'>
                 {/* 주인 */}
                 <div className=''>
                     <div>
@@ -38,13 +76,14 @@ const HotPack = () => {
                     </div>
                 </div>
 
-                <TemperatureBox temperature={temperature} />
+                <TemperatureBox temperature={temperature || 0} />
             </div>
 
             <div className='mt-[1.4375rem]'></div>
 
             <div className='relative w-full md:w-[40.687rem] my-2'>
-                <Image alt='HOTPACK' src='/hotpack.jpeg' width={100} height={100} layout='responsive' objectFit='contain' />
+                
+                <Image alt='HOTPACK' src={hotpackImg || "/logo.PNG"} width={100} height={100} layout='responsive' objectFit='contain' priority />
             </div>
 
             <div className='w-full flex flex-col items-center my-5'>
@@ -73,6 +112,7 @@ const HotPack = () => {
                 )}
             </div>
         </BaseLayout>
+        </>
     );
 };
 

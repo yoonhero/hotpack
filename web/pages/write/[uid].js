@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import Head from "next/head"
 
 import { BaseLayout } from "../../components/base_layout";
 import { Paper, PaperContent, LetterText } from "../../components/letter";
@@ -30,12 +31,20 @@ const WriteMessage = () => {
     }, [hotpackID]);
 
     const onValid = async () => {
-        const { card_text } = getValues();
+        const { card_text, writer } = getValues();
 
-        console.log(card_text);
+
+        // TODO: API SERVER
+        const response = {temperature:10}
+
+        router.push(`/hotpack/${hotpackID}?t=${response.temperature}`)
     };
 
     return (
+        <>
+        <Head>
+            <title>{hotpackName}님의 핫팩</title>
+        </Head>
         <BaseLayout>
             <div className='w-full md:w-[37.5rem]  flex flex-row justify-around md:justify-between items-center'>
                 {/* 주인 */}
@@ -46,7 +55,7 @@ const WriteMessage = () => {
                     </div>
 
                     <div>
-                        <span className='text-xl md:text-3xl text-gray-600 font-semibold'>핫팩 온도를 높여주세요!</span>
+                        <span className='text-md md:text-2xl text-gray-600 font-semibold'>핫팩 온도를 높여주세요!</span>
                     </div>
                 </div>
 
@@ -55,10 +64,10 @@ const WriteMessage = () => {
 
             <div className='w-full mt-[2.4375rem]'>
                 <Paper onSubmit={handleSubmit(onValid)} ref={componentRef}>
-                    <div className='pt-4 pl-[50px] md:pl-20 pb-0'>
-                        <h1 className='mb-2 font-sans text-2xl font-bold text-gray-700 l-2'>FROM:</h1>
+                    <div className='h-[85px] flex flex-row items-end justify-around pl-[40px] md:pl-[90px] '>
+                        <h1 className='text-center items-center min-w-[8rem] font-sans text-2xl h-[40px] font-bold text-red-400 l-2'>보내는 사람:</h1>
 
-                        <input placeholder='작성자' className='bg-transparent font-bold w-full py-0 px-0 text-xl text-gray-800 outline-none' />
+                        <input placeholder='작성자' className='bg-transparent font-bold w-full h-[40px] py-0 px-0 text-xl text-gray-600 outline-none' {...register("writer", {required:true})} />
                     </div>
                     <div className="mt-1 w-full h-[2px] bg-[#91d1d3]"></div>
                     <PaperContent>
@@ -74,11 +83,12 @@ const WriteMessage = () => {
                     <span className='text-gray-500 text-md font-bold'>이전</span>
                 </button>
 
-                <button className='cursor-pointer bg-[#ff5d56] w-full h-[3.5rem] rounded-[1rem]'>
+                <button onClick={handleSubmit(onValid)} className='cursor-pointer bg-[#ff5d56] w-full h-[3.5rem] rounded-[1rem]'>
                     <span className='text-white text-md font-bold'>"{hotpackName}"에게 메세지 남기기</span>
                 </button>
             </div>
         </BaseLayout>
+        </>
     );
 };
 
