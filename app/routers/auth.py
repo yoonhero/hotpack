@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from uuid import uuid4
+from uuid import uuid1
 
 from ..models import AuthModel
 from ..utils import get_hashed_password, encode_user2jwt, verify_password
@@ -23,15 +23,20 @@ async def create_user(data: AuthModel):
             detail="이미 이 이메일 주소로 계정이 있습니다. 다시 한번 확인해주세요."
         )
 
-    user = {
+    user_ = {
         'email': data.email,
         'password': get_hashed_password(data.password),
-        '_id': str(uuid4())
+        '_id': str(uuid1().hex)
     }
 
-    new_user = db["users"].insert_one(user)
+    new_user = db["users"].insert_one(user_)
 
-    return {"success": True, "jwt": encode_user2jwt(new_user)}
+    to_jwt_user = {
+        "email": user_["email"],
+        "_id": user_["_id"]
+    }
+
+    return {"success": True, "jwt": encode_user2jwt(to_jwt_user)}
 
 
 @router.post("/login", summary="Login")
@@ -46,10 +51,15 @@ async def login(data: AuthModel):
 
     status = verify_password(data.password, user.password)
 
+    to_jwt_user = {
+        "email": user["email"],
+        "_id": user["_id"]
+    }
+
     if not status:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="비밀번호를 확인해주세요."
         )
 
-    return {"success": True, "jwt": encode_user2jwt(user)}
+    return {"success": True, "jwt": encode_user2jwt(to_jwt_user)}

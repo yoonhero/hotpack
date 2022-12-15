@@ -44,7 +44,7 @@ const WriteMessage = () => {
         <>
             <SnowContainer />
             <Head>
-                <title>{hotpackName}님의 핫팩</title>
+                <title>{`${hotpackName}님의 핫팩` || "핫팩 🔥"}</title>
             </Head>
             <BaseLayout>
                 <div className='w-full md:w-[37.5rem]  flex flex-row justify-around md:justify-between items-center'>
