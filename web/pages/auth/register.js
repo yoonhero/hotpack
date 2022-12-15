@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import css from "styled-jsx/css";
-
+import { useRouter } from "next/router";
 import {
   Checkbox,
   Box,
@@ -15,7 +15,7 @@ import {
   FormHelperText,
   InputLeftElement
 } from '@chakra-ui/react';
-
+import Image from "next/image";
 import { PhoneIcon } from "@chakra-ui/icons";
 
 import reCAPTCHA from "react-google-recaptcha";
@@ -23,26 +23,34 @@ import reCAPTCHA from "react-google-recaptcha";
 /* css */
 const style = css`
  *{
-  margin-left : 10px;
+  margin-right : 5px;
+  margin-left : 5px;
+  text-align: center;
  }
 
  .title{
   margin-top : 15px;
-  color : purple;
+  color : #ff6666;
+ 
+.register_button{
   
+  text-allign : left;  
 }
+
 `;
 
 /* 회원가입 버튼을 눌렀을 때 작동하는 함수 */
 const onSubmit = data => {
   console.log(data);
+  alert("회원가입이 완료되었습니다");
+  location.assign("../join")
 }
 
 export default function App() {
 
 /* React Hook 설정*/
 const { register, handleSubmit, watch, formState: { errors } } = useForm();
-
+const router = useRouter();
   
 return(
   <>
@@ -54,62 +62,42 @@ return(
   
   
   <main  className="animate__animated animate__fadeInLeft">
-  
   {/* 제목 */}
   <h1 className="title"><bold>회원가입 </bold></h1>
   <form onSubmit={handleSubmit(onSubmit)}>
   <br/>
+
   
+  <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}>
+  <Image alt='HOTPACK' src='/logo.jpg' width={400} height={400} />
+  </div>
   {/*회원가입 폼*/}
-  <FormControl isRequired>
-    <FormLabel>ID</FormLabel>
-    
-    <Input placeholder="ID" id="ID_TextField" label="ID" size="lg" focusBorderColor="pink.300"{...register("id")} autoComplete="off" variant={"filled"}/>
-  </FormControl>
-    
-  <FormControl  isRequired>
-    <FormLabel>Password</FormLabel>
-    <Input placeholder ="비밀번호" type={"password"} focusBorderColor="pink.300"{...register("password")} variant={"filled"}></Input>
-  </FormControl>
-
 
   <FormControl isRequired>
-    <FormLabel>Email 주소</FormLabel>
-    <Input type="email" placeholder="email" focusBorderColor="pink.300"{...register("email")} variant={"filled"}/>
+    <FormLabel fontSize={"35px"}>Email</FormLabel>
+    <Input type="email" placeholder="이메일"  fontSize={"25px"} focusBorderColor="#ff6666"{...register("email")} variant={"filled"}/>
   </FormControl>
-  
-  
-  <FormControl>
-  
-  {/* todo : 핑크색 줄이 생기는 문제 해결*/}
-  <br/>
-    <FormLabel>성별</FormLabel>
-    <Select placeholder="남자"  variant={"filled"} focusBorderColor="pink.300"{...register("gender")}>
       
-      <option>여자</option>
-      <option>알 수 없음</option>
-    </Select>    
-  
+  <FormControl  isRequired textAlign={"right"}>
+    <FormLabel fontSize={"35px"}>Password</FormLabel>
+    <Input placeholder ="비밀번호" fontSize={"25px"} type={"password"} focusBorderColor="#ff6666" {...register("password")} variant={"filled"}></Input>
   </FormControl>
 
-  {/* 전화번호를 입력받는 곳 (현재 개발중)*/}
-  <InputGroup>
-    <InputLeftElement
-      pointerEvents='none'
-      children={<PhoneIcon color='gray.300' />}
-    />
-    <Input type='phone' placeholder='개발중' />
-  </InputGroup>
 
   {/* todo 개인정보 처리방침 작성하기*/}
   <FormControl  isRequired>
     <br/>
-    <FormLabel ><a href="#">개인정보 처리방침에 동의하시나요??</a></FormLabel>
-      <Checkbox>확인</Checkbox>
+    <FormLabel className="agree" fontSize={"15px"}><a href="#">개인정보 처리방침에 동의하시나요??</a></FormLabel>
+      <Checkbox size="lg">확인</Checkbox>
+
   </FormControl>
 
   <FormControl>
-    <Button type="submit"  colorScheme={"purple"}>회원가입</Button>
+    <Button type="submit" backgroundColor={"#ff6666"} width="170px" height={"80px"} className="register_button" fontSize={"20px"}>회원가입</Button>
     {/* <reCAPTCHA sitekey="6LfRt3sjAAAAANjrdKT-FmzyTNxtSGrd0dHOmXaF"/> ReCAPCHA 관련 코드*/}
   </FormControl>
   

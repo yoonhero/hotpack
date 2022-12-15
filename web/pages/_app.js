@@ -4,15 +4,23 @@ import "../styles/Home.module.css"
 import "animate.css";
 import { fontSize } from '@mui/system';
 
-const colors = {
-  brand: {
-    900: '#1a365d',
-    800: '#153e75',
-    700: '#2a69ac',
+const theme = extendTheme({
+  textStyles: {
+    h1: {
+      // you can also use responsive styles
+      fontSize: ['48px', '72px'],
+      fontWeight: 'bold',
+      lineHeight: '110%',
+      letterSpacing: '-2%',
+    },
+    h2: {
+      fontSize: ['36px', '48px'],
+      fontWeight: 'semibold',
+      lineHeight: '110%',
+      letterSpacing: '-1%',
+    },
   },
-}
-
-const theme= extendTheme({colors});
+})
 
 function MyApp({ Component, pageProps }) {
   return (
