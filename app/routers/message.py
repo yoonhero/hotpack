@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 import requests
-import datetime
+from datetime import datetime
+from uuid import uuid4
 
 from ..configs import HUGGING_FACE_AUTH
 from ..dependencies import get_token_header
@@ -26,20 +27,21 @@ router = APIRouter(
 @router.post("/write")
 def write(data: MessagePostModel):
     score_response = score_api(data.message)
-    temperature = sorted(score_response, key=lambda x: x.value())[0][0]
-    data.temperature = temperature
+    s_keys = list(score_response.keys())
+    s_values = list(score_response.values())
+    temperature = int(s_keys[s_values.index(max(s_values))][0])
 
     message = {
         "from": data.writer,
         "message": data.message,
         "temperature": temperature,
-        "createdAt": datetime.datetime
+        "createdAt": datetime.now(),
+        "_id": str(uuid4().hex)
     }
 
     new_message = db["messages"].insert_one(message)
-    pass
 
-    return
+    return {"success": True}
 
 
 @router.get("/",  dependencies=[Depends(JWTBearer)])
