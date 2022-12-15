@@ -13,5 +13,9 @@ class MessagePostModel(BaseModel):
     temperature: str = Field(default=0)
 
 
-class EditUserModel(BaseModel):
-    username: str
+class UpdateHotpackModel(BaseModel):
+    hotpackName: str
+
+
+class GetHotpackModel(BaseModel):
+    id: str
