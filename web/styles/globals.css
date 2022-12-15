@@ -11,3 +11,40 @@
     background-color: rgba(0, 0, 0, 0.2);
     transition: opacity 0.2s ease;
 }
+
+@media screen and (max-width: 640px) {
+    .analystic {
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+.drop {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    opacity: 0;
+}
+
+.snow {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #ff8787;
+    box-shadow: 0 0 10px #fff;
+}
+
+.animate {
+    animation: falling 8.5s infinite ease-in;
+}
+
+@keyframes falling {
+    0% {
+        top: 0;
+    }
+
+    100% {
+        top: 90vh;
+        opacity: 0;
+    }
+}

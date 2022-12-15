@@ -8,6 +8,7 @@ import { Button } from "../../components/btn";
 import { handleCopyClipBoard } from "../../utils/clipboard";
 import { TemperatureBox } from "../../components/temperature";
 import { Thermometer } from "../../components/thermometer";
+import { SnowContainer } from "../../components/snow";
 
 const HotPack = () => {
     const router = useRouter();
@@ -22,7 +23,7 @@ const HotPack = () => {
 
     useEffect(() => {
         setHotpackID(router.query.uid);
-        setTemperature(40);
+        setTemperature(100);
     }, []);
 
     useEffect(() => {
@@ -48,6 +49,7 @@ const HotPack = () => {
 
     return (
         <>
+            <SnowContainer />
             <Head>
                 <title>{hotpackName || ""}님의 핫팩</title>
             </Head>
