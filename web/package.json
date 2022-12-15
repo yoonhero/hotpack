@@ -13,12 +13,13 @@
     "@chakra-ui/react": "^2.4.3",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@mui/material": "^5.11.0",
     "framer-motion": "^7.8.0",
+    "babel-plugin-styled-components": "^2.0.7",
     "next": "13.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.40.0"
+    "react-hook-form": "^7.40.0",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
