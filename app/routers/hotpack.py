@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from uuid import uuid4
 
+from ..models import User
+from ..auth_bearer import get_current_user
 from ..utils import decode_jwt2user
 from ..models import UpdateHotpackModel, GetHotpackModel
 from ..database import db
@@ -15,13 +17,11 @@ router = APIRouter(
 )
 
 
-@router.post('/name', summary="Make Own Hotpack", dependencies=[Depends(JWTBearer)])
-async def updateHotpackName(editData: UpdateHotpackModel, request: Request):
+@router.post('/name', summary="Make Own Hotpack")
+async def updateHotpackName(editData: UpdateHotpackModel, current_user: User = Depends(get_current_user)):
     # querying database to check if user already exist
-    authUser = request.state.user
-
-    authUserEmail = authUser["email"]
-    authUserID = authUser["_id"]
+    authUserEmail = current_user.email
+    authUserID = current_user._id
 
     user = db["users"].find_one({"email": authUserEmail, "_id": authUserID})
 

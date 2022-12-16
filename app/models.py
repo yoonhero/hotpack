@@ -1,9 +1,37 @@
 from pydantic import BaseModel, Field
+import datetime
 
 
 class AuthModel(BaseModel):
     email: str
     password: str
+
+
+class UpdateHotpackModel(BaseModel):
+    hotpackName: str
+
+
+class GetHotpackModel(BaseModel):
+    id: str
+
+
+class Token(BaseModel):
+    access_token: str
+
+
+class TokenData(BaseModel):
+    email: str | None = None
+    _id: str | None = None
+
+
+class User(BaseModel):
+    email: str
+    hotpackName: str | None = None
+    _id: str
+
+
+class UserInDB(User):
+    hashed_password: str
 
 
 class MessagePostModel(BaseModel):
@@ -13,9 +41,9 @@ class MessagePostModel(BaseModel):
     temperature: str = Field(default=0)
 
 
-class UpdateHotpackModel(BaseModel):
-    hotpackName: str
-
-
-class GetHotpackModel(BaseModel):
-    id: str
+class Message(BaseModel):
+    writer: str
+    message: str
+    temperature: int
+    createdAt: datetime.datetime
+    _id: str

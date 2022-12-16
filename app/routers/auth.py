@@ -1,8 +1,13 @@
+from datetime import datetime, timedelta
+import jwt
 from fastapi import APIRouter, Depends, HTTPException, status
-from uuid import uuid1
+from uuid import uuid4
+from pydantic import BaseModel
 
-from ..models import AuthModel
-from ..utils import get_hashed_password, encode_user2jwt, verify_password
+from ..configs import SECRET_KEY
+from ..auth_bearer import get_current_user
+from ..models import AuthModel, TokenData, User, UserInDB
+from ..utils import get_hashed_password, encode_user2jwt, verify_password, decode_jwt2user
 from ..database import db
 
 router = APIRouter(
@@ -23,20 +28,16 @@ async def create_user(data: AuthModel):
             detail="이미 이 이메일 주소로 계정이 있습니다. 다시 한번 확인해주세요."
         )
 
-    user_ = {
-        'email': data.email,
-        'password': get_hashed_password(data.password),
-        '_id': str(uuid1().hex)
-    }
+    hashed_password = get_hashed_password(data.password)
+    user_uid = str(uuid4().hex)
+
+    user_ = UserInDB(data.email, "", user_uid, hashed_password)
 
     new_user = db["users"].insert_one(user_)
 
-    to_jwt_user = {
-        "email": user_["email"],
-        "_id": user_["_id"]
-    }
+    to_jwt_user = User(**new_user)
 
-    return {"success": True, "jwt": encode_user2jwt(to_jwt_user)}
+    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict())}
 
 
 @router.post("/login", summary="Login")
@@ -49,12 +50,9 @@ async def login(data: AuthModel):
             detail="이메일을 확인해주세요."
         )
 
-    status = verify_password(data.password, user["password"])
+    status = verify_password(data.password, user["hashed_password"])
 
-    to_jwt_user = {
-        "email": user["email"],
-        "_id": user["_id"]
-    }
+    to_jwt_user = User(**user)
 
     if not status:
         raise HTTPException(
@@ -62,4 +60,9 @@ async def login(data: AuthModel):
             detail="비밀번호를 확인해주세요."
         )
 
-    return {"success": True, "jwt": encode_user2jwt(to_jwt_user)}
+    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict())}
+
+
+@router.post("/me", summary="ME")
+async def read_users_me(current_user: User = Depends(get_current_user)):
+    return current_user
