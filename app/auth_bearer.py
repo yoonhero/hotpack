@@ -36,16 +36,21 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
+
         payload = decode_jwt2user(token)
         email: str = payload.get("email")
+
         if email is None:
             raise credentials_exception
+
         token_data = TokenData(**payload)
 
     except jwt.DecodeError:
         raise credentials_exception
 
-    user = await get_user_from_db(token_data.email, token_data.password)
+    print(token_data)
+
+    user = await get_user_from_db(token_data.email, token_data._id)
 
     if user is None:
         raise credentials_exception
