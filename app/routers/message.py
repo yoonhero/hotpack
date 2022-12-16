@@ -49,4 +49,4 @@ def get_all_messages(request: Request):
     authUser = request.state.user
     target_user = db["users"].find_one({"message": authUser.email})
 
-    return target_user.messages
+    return target_user["messages"]

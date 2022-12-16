@@ -49,7 +49,7 @@ async def login(data: AuthModel):
             detail="이메일을 확인해주세요."
         )
 
-    status = verify_password(data.password, user.password)
+    status = verify_password(data.password, user["password"])
 
     to_jwt_user = {
         "email": user["email"],
