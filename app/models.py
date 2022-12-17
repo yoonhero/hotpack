@@ -35,10 +35,9 @@ class UserInDB(User):
 
 
 class MessagePostModel(BaseModel):
-    hotpackId: int
+    hotpackId: str
     writer: str
     message: str
-    temperature: str = Field(default=0)
 
 
 class Message(BaseModel):

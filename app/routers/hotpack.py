@@ -31,8 +31,8 @@ def score_api(payload):
 @router.post('/create', summary="Make Own Hotpack")
 async def updateHotpackName(editData: UpdateHotpackModel, current_user: User = Depends(get_current_user)):
     # querying database to check if user already exist
-    authUserEmail = current_user.get("email")
-    authUserID = current_user.get("uid")
+    authUserEmail = current_user.email
+    authUserID = current_user.uid
 
     user = db["users"].find_one({"email": authUserEmail, "uid": authUserID})
 
@@ -50,28 +50,29 @@ async def updateHotpackName(editData: UpdateHotpackModel, current_user: User = D
 
 @router.post("/write_message")
 def write(data: MessagePostModel):
-    score_response = score_api(data.message)
-    s_keys = list(score_response.keys())
-    s_values = list(score_response.values())
-    temperature = int(s_keys[s_values.index(max(s_values))][0])
+    score_response = score_api(data.message)[0]
+
+    sorted_score = sorted(
+        score_response, key=lambda x: x.get("score"), reverse=True)
+    temperature = int(sorted_score[0].get("label")[0])
 
     createdAt = datetime.now()
-    message_uid = str(uuid4().hex)
+    message_uid = uuid4().hex
 
-    message = Message(data.writer, data.message,
-                      temperature, createdAt, message_uid)
+    message = Message(writer=data.writer, message=data.message,
+                      temperature=temperature, createdAt=createdAt, uid=message_uid)
 
-    new_message = db["messages"].insert_one(message)
+    new_message = db["messages"].insert_one(message.dict())
 
-    db["user"].update_one({"uid": data.hotpackId}, {
-                          '$push': {'messages': message_uid}}, upsert=True)
+    db["users"].update_one({"uid": data.hotpackId}, {
+        '$push': {'messages': message_uid}, '$inc': {"count": 1, "temperature": temperature}}, upsert=True)
 
     return {"success": True, "temperature": temperature}
 
 
 @router.get("/", summary="Watch Hotpack for Not Owner")
 async def hotpackInfo(data: GetHotpackModel):
-    id = data["uid"]
+    id = data.uid
 
     messageOwner = db["users"].find_one({"uid": id})
 
@@ -88,7 +89,7 @@ async def allHotpackMessages(current_user: User = Depends(get_current_user)):
     authUserEmail = current_user.email
     authUserID = current_user.uid
 
-    user = get_user_from_db(authUserEmail, authUserID)
+    user = await get_user_from_db(authUserEmail, authUserID)
 
     if user is None:
         raise HTTPException(
@@ -98,6 +99,11 @@ async def allHotpackMessages(current_user: User = Depends(get_current_user)):
 
     messageIds = user["messages"]
 
-    messages = db["messages"].find({"uid": {"$in": messageIds}})
+    messages = db["messages"].find({"uid": {"$in": messageIds}},    {'_id': 0})
 
-    return messages
+    ms = []
+
+    for m in messages:
+        ms.append(m)
+
+    return {"messages": ms}

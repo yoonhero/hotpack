@@ -3,7 +3,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
-from .models import TokenData
+from .models import TokenData, User
 from .database import get_user_from_db
 from .utils import decode_jwt2user
 
@@ -48,12 +48,12 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     except jwt.DecodeError:
         raise credentials_exception
 
-    print(token_data)
-
     user = await get_user_from_db(token_data.email, token_data.uid)
 
     if user is None:
         raise credentials_exception
+
+    user = User(**user)
 
     return user
 
