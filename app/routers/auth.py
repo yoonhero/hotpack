@@ -29,13 +29,14 @@ async def create_user(data: AuthModel):
         )
 
     hashed_password = get_hashed_password(data.password)
-    user_uid = str(uuid4().hex)
+    user_uid = uuid4().hex
 
-    user_ = UserInDB(data.email, "", user_uid, hashed_password)
+    user_ = UserInDB(email=data.email, _id=user_uid,
+                     hashed_password=hashed_password)
 
-    new_user = db["users"].insert_one(user_)
+    new_user = db["users"].insert_one(user_.dict())
 
-    to_jwt_user = User(**new_user)
+    to_jwt_user = User(**user_.dict())
 
     return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict())}
 

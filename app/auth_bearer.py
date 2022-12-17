@@ -43,6 +43,8 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         if email is None:
             raise credentials_exception
 
+        print(payload["email"], payload["_id"])
+
         token_data = TokenData(**payload)
 
     except jwt.DecodeError:

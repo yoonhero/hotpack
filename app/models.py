@@ -12,7 +12,7 @@ class UpdateHotpackModel(BaseModel):
 
 
 class GetHotpackModel(BaseModel):
-    id: str
+    _id: str
 
 
 class Token(BaseModel):
@@ -20,14 +20,14 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    email: str | None = None
-    id: str | None = None
+    email: str = None
+    _id: str = None
 
 
 class User(BaseModel):
     email: str
-    hotpackName: str | None = None
-    id: str
+    hotpackName: str = None
+    _id: str
 
 
 class UserInDB(User):
@@ -46,4 +46,4 @@ class Message(BaseModel):
     message: str
     temperature: int
     createdAt: datetime.datetime
-    id: str
+    _id: str
