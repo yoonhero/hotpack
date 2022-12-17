@@ -31,12 +31,12 @@ async def create_user(data: AuthModel):
     hashed_password = get_hashed_password(data.password)
     user_uid = uuid4().hex
 
-    user_ = UserInDB(email=data.email, _id=user_uid,
+    user_ = UserInDB(email=data.email, uid=user_uid,
                      hashed_password=hashed_password)
 
     new_user = db["users"].insert_one(user_.dict())
 
-    to_jwt_user = User(**user_.dict())
+    to_jwt_user = TokenData(**user_.dict())
 
     return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict())}
 
@@ -53,7 +53,7 @@ async def login(data: AuthModel):
 
     status = verify_password(data.password, user["hashed_password"])
 
-    to_jwt_user = User(**user)
+    to_jwt_user = TokenData(**user)
 
     if not status:
         raise HTTPException(

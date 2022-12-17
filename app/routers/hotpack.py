@@ -31,10 +31,10 @@ def score_api(payload):
 @router.post('/create', summary="Make Own Hotpack")
 async def updateHotpackName(editData: UpdateHotpackModel, current_user: User = Depends(get_current_user)):
     # querying database to check if user already exist
-    authUserEmail = current_user.email
-    authUserID = current_user._id
+    authUserEmail = current_user.get("email")
+    authUserID = current_user.get("uid")
 
-    user = db["users"].find_one({"email": authUserEmail, "_id": authUserID})
+    user = db["users"].find_one({"email": authUserEmail, "uid": authUserID})
 
     if user is None:
         raise HTTPException(
@@ -63,7 +63,7 @@ def write(data: MessagePostModel):
 
     new_message = db["messages"].insert_one(message)
 
-    db["user"].update_one({"_id": data.hotpackId}, {
+    db["user"].update_one({"uid": data.hotpackId}, {
                           '$push': {'messages': message_uid}}, upsert=True)
 
     return {"success": True, "temperature": temperature}
@@ -71,9 +71,9 @@ def write(data: MessagePostModel):
 
 @router.get("/", summary="Watch Hotpack for Not Owner")
 async def hotpackInfo(data: GetHotpackModel):
-    id = data["_id"]
+    id = data["uid"]
 
-    messageOwner = db["users"].find_one({"_id": id})
+    messageOwner = db["users"].find_one({"uid": id})
 
     hotpackInfo = {
         "temperature": messageOwner["temperature"],
@@ -86,7 +86,7 @@ async def hotpackInfo(data: GetHotpackModel):
 @router.get("/all", summary="Watch Hotpack Messages for Owner")
 async def allHotpackMessages(current_user: User = Depends(get_current_user)):
     authUserEmail = current_user.email
-    authUserID = current_user._id
+    authUserID = current_user.uid
 
     user = get_user_from_db(authUserEmail, authUserID)
 
@@ -98,6 +98,6 @@ async def allHotpackMessages(current_user: User = Depends(get_current_user)):
 
     messageIds = user["messages"]
 
-    messages = db["messages"].find({"_id": {"$in": messageIds}})
+    messages = db["messages"].find({"uid": {"$in": messageIds}})
 
     return messages
