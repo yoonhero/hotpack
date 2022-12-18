@@ -25,7 +25,10 @@ const HotPack = () => {
     const [modal, setModal] = useState(false);
 
     const initHotpackInfo = async () => {
-        const response = GetHotpackInfo();
+        console.log(hotpackID);
+        const response = await GetHotpackInfo(hotpackID);
+
+        console.log(response);
 
         const h_name = response.data.hotpackName;
         const h_temp = response.data.temperature;
@@ -38,9 +41,13 @@ const HotPack = () => {
 
     useEffect(() => {
         setHotpackID(router.query.uid);
-
-        initHotpackInfo();
     }, [router]);
+
+    useEffect(() => {
+        if (hotpackID) {
+            initHotpackInfo();
+        }
+    }, [hotpackID]);
 
     const validateTokenAndUID = async () => {
         if (hotpackID == "" || !hotpackID) {
@@ -50,11 +57,19 @@ const HotPack = () => {
         const jwt_token = getAuthKey();
         const uid = getStorageItem("uid");
 
+        if (jwt_token == undefined || uid == undefined) {
+            return;
+        }
+
         const response = await GetUID(jwt_token);
 
-        const uid_ = response.data.me.uid;
+        const uid_ = response?.data?.me?.uid;
 
         setIsOwner(uid == uid_);
+
+        if (uid == undefined) {
+            return;
+        }
 
         setStorageItem("uid", uid_);
     };
@@ -127,7 +142,7 @@ const HotPack = () => {
                     <Image alt='HOTPACK' src={hotpackImg || "/logo.PNG"} width={100} height={100} layout='responsive' objectFit='contain' priority />
                 </div>
 
-                <div className='w-full flex flex-col items-center my-5'>
+                <div className='w-full flex flex-col items-center my-5 mb-10'>
                     {!isOwner ? (
                         // 주인이 아니라 손님이 들어온다면
                         <>

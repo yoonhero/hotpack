@@ -34,14 +34,16 @@ const WriteMessage = () => {
         }
 
         // GET HOTPACKNAME
-        setHotpackName("승현이");
+        // setHotpackName("승현이");
     }, [hotpackID]);
 
     const onValid = async () => {
         const { message, writer } = getValues();
 
         // TODO: API SERVER
-        const response = PostMessage(hotpackId, writer, message);
+        const response = await PostMessage(hotpackID, writer, message);
+
+        console.log(response);
 
         if (response.data.success) {
             return router.push(`/hotpack/${hotpackID}?t=${response.data.temperature}`);

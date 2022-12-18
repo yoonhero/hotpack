@@ -5,8 +5,12 @@ const setStorageItem = (key, value) => {
 
 const getStorageItem = (key) => {
     const saved = localStorage.getItem(key);
-    const initialValue = JSON.parse(saved);
-    return initialValue || undefined;
+    try {
+        const initialValue = JSON.parse(saved);
+        return initialValue || undefined;
+    } catch (e) {
+        return undefined;
+    }
 };
 
 const deleteStorageItem = (key) => {

@@ -72,15 +72,12 @@ const GetUID = async (token) => {
 // };
 
 const GetHotpackInfo = async (uid) => {
-    let config = {
-        params: {
-            uid: uid,
-        },
-    };
+    let data = { params: { uid: uid } };
 
     try {
-        const response = await axios.get(`${API_SERVER_URL}/hotpack/`, config);
+        const response = await axios.get(`${API_SERVER_URL}/hotpack/`, data);
 
+        console.log(response);
         return response;
     } catch (e) {
         return e;
@@ -115,7 +112,7 @@ const PostMessage = async (hotpackId, writer, message) => {
     };
 
     try {
-        const response = await axios.post(`${API_SERVER_URL}/hotpack/writer_message`, data);
+        const response = await axios.post(`${API_SERVER_URL}/hotpack/write_message`, data);
 
         return response;
     } catch (e) {
