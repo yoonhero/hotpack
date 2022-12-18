@@ -9,7 +9,9 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@hookform/error-message": "^2.0.1",
         "animate.css": "^4.1.1",
+        "axios": "^1.2.1",
         "babel-plugin-styled-components": "^2.0.7",
         "framer-motion": "^6.5.1",
         "next": "13.0.6",
