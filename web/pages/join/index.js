@@ -14,8 +14,6 @@ const Join = () => {
     const onValid = async () => {
         const { hotpackName } = getValues();
 
-        console.log(hotpackName);
-
         const jwt_token = getAuthKey();
 
         const response = await CreateOwnHotpack(jwt_token, hotpackName);
@@ -32,6 +30,13 @@ const Join = () => {
                 <title>반가워요~:)</title>
             </Head>
             <BaseLayout>
+                <div className=' w-[80vw] md:w-[20.687rem]  overflow-hidden bg-gray-200 flex flex-row items-center justify-around rounded-2xl shadow-sm shadow-gray-500/40'>
+                    <div
+                        className={`flex items-center justify-center w-full  font-bold text-gray-600  p-4 text-xl md:text-2xl bg-red-400 text-white
+                        }`}>
+                        Welcome to 핫팩!
+                    </div>
+                </div>
                 <div className='mt-20 relative w-[80vw] md:w-[20.687rem] my-2'>
                     <Image alt='HOTPACK' src={"/logo.PNG"} width={100} height={100} layout='responsive' objectFit='contain' priority />
                 </div>

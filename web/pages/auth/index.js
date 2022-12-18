@@ -37,7 +37,7 @@ const Auth = () => {
         if (mode === "login") {
             result = await LoginRequest(email, password);
         } else if (mode == "signup") {
-            if (password.length <= 6) {
+            if (password.length < 6) {
                 setError("비밀번호는 6자리 이상이어야 합니다.");
                 return;
             }
@@ -49,7 +49,11 @@ const Auth = () => {
             setAuthKey(result.data.jwt);
             setStorageItem("uid", result.data.uid);
 
-            router.push(`/hotpack/${result.data.uid}`);
+            if (mode == "login") {
+                router.push(`/hotpack/${result.data.uid}`);
+            } else {
+                router.push(`/join`);
+            }
         } else {
             setError(result.response.data.detail);
         }

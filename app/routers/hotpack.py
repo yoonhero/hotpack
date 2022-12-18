@@ -71,8 +71,10 @@ def write(data: MessagePostModel):
 
 
 @router.get("/", summary="Watch Hotpack for Not Owner")
-async def hotpackInfo(data: GetHotpackModel):
-    id = data.uid
+async def hotpackInfo(uid: str):
+    id = uid
+
+    print(id)
 
     messageOwner = db["users"].find_one({"uid": id})
 
