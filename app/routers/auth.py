@@ -38,7 +38,7 @@ async def create_user(data: AuthModel):
 
     to_jwt_user = TokenData(**user_.dict())
 
-    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict())}
+    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict()), "uid":user_uid}
 
 
 @router.post("/login", summary="Login")
@@ -61,7 +61,7 @@ async def login(data: AuthModel):
             detail="비밀번호를 확인해주세요."
         )
 
-    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict())}
+    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict()), "uid":user["uid"]}
 
 
 @router.post("/me", summary="ME")

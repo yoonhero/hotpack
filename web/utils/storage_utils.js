@@ -1,5 +1,5 @@
 const setStorageItem = (key, value) => {
-    jsoned_value = JSON.stringify(value);
+    const jsoned_value = JSON.stringify(value);
     localStorage.setItem(key, jsoned_value);
 };
 

@@ -5,6 +5,9 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { LoginRequest, SignupRequest } from "../../utils/api";
+import { setAuthKey } from "../../utils/auth";
+import { setStorageItem } from "../../utils/storage_utils";
 
 const Auth = () => {
     const router = useRouter();
@@ -23,12 +26,20 @@ const Auth = () => {
         setMode("login");
     }, [router]);
 
-    const onValid = () => {
-        const { email, password } = router.getValues();
+    const onValid = async () => {
+        const { email, password } = getValues();
+
+        let result;
 
         if (mode === "login") {
-        } elif(mode =="singup"){
+            result = await LoginRequest(email, password);
+        } else if (mode == "singup") {
+            result = await SignupRequest(email, password);
+        }
 
+        if (result.data.success) {
+            setAuthKey(result.data.jwt);
+            setStorageItem("uid", result.data.uid);
         }
     };
 
@@ -66,7 +77,7 @@ const Auth = () => {
                     <Image alt='HOTPACK' src={"/logo.PNG"} width={100} height={100} layout='responsive' objectFit='contain' priority />
                 </div>
 
-                <div className='mt-10 w-[80vw] md:w-[20.687rem]'>
+                <div className='mt-10 w-[80vw] md:w-[20.687rem] mb-20'>
                     <label className='m-2 text-2xl font-extrabold'>{mode == "login" ? "로그인" : "회원가입"}</label>
                     <input
                         className='w-full m-2 py-4 px-5 outline-none text-xl font-bold text-gray-600 text-center border border-2 rounded-2xl border-gray-200 bg-gray-100'
