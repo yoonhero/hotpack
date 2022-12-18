@@ -64,6 +64,9 @@ async def login(data: AuthModel):
     return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict()), "uid": user["uid"]}
 
 
-@router.post("/me", summary="ME")
+@router.get("/me", summary="ME")
 async def read_users_me(current_user: User = Depends(get_current_user)):
-    return current_user
+
+    return {"me": current_user.dict()}
+
+# @router.post("/uid", summary="GET UID TOKEN")

@@ -9,4 +9,8 @@ const getStorageItem = (key) => {
     return initialValue || undefined;
 };
 
-export { setStorageItem, getStorageItem };
+const deleteStorageItem = (key) => {
+    localStorage.removeItem(key);
+};
+
+export { setStorageItem, getStorageItem, deleteStorageItem };

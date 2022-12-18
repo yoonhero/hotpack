@@ -8,6 +8,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { LoginRequest, SignupRequest } from "../../utils/api";
 import { setAuthKey } from "../../utils/auth";
 import { setStorageItem } from "../../utils/storage_utils";
+import { SnowContainer } from "../../components/snow";
 
 const Auth = () => {
     const router = useRouter();
@@ -19,7 +20,7 @@ const Auth = () => {
 
     useEffect(() => {
         if (router.query.mode == "signup") {
-            setMode(signup);
+            setMode("signup");
             return;
         }
 
@@ -64,8 +65,9 @@ const Auth = () => {
 
     return (
         <>
+            <SnowContainer />
             <Head>
-                <title>안뇽~</title>
+                <title>핫팩에 오신 걸 환영해요!</title>
             </Head>
             <BaseLayout>
                 <div className=' w-[80vw] md:w-[20.687rem]  overflow-hidden bg-gray-200 flex flex-row items-center justify-around rounded-2xl shadow-sm shadow-gray-500/40'>

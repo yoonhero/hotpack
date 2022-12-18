@@ -36,4 +36,19 @@ const SignupRequest = async (email, password) => {
     }
 };
 
-export { LoginRequest, SignupRequest };
+const GetUID = async (token) => {
+    try {
+        let config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        const response = await axios.get(`${API_SERVER_URL}/auth/me`, config);
+
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
+export { LoginRequest, SignupRequest, GetUID };

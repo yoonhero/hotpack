@@ -1,4 +1,4 @@
-import { setStorageItem } from "./storage_utils";
+import { getStorageItem, setStorageItem } from "./storage_utils";
 
 const JWT_TOKEN = "JWT_TOKEN";
 
