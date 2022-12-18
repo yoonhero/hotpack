@@ -38,7 +38,6 @@ const HotPack = () => {
 
     useEffect(() => {
         setHotpackID(router.query.uid);
-        setTemperature(100);
 
         initHotpackInfo();
     }, [router]);
@@ -132,7 +131,9 @@ const HotPack = () => {
                     {!isOwner ? (
                         // 주인이 아니라 손님이 들어온다면
                         <>
-                            <Button bgColor='bg-[#ff5d56]' onClickFunction={() => router.push(`/write/${router.query.uid}`)}>
+                            <Button
+                                bgColor='bg-[#ff5d56]'
+                                onClickFunction={() => router.push(`/write/${router.query.uid}?name=${hotpackName}&temperature=${temperature}`)}>
                                 <div className='flex flex-row items-center justify-center gap-2'>
                                     <Image width={25} height={25} src='/warm.svg' />
                                     <span className='font-semibold'>핫팩에 메세지 남겨주기</span>

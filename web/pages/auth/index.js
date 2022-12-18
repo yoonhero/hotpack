@@ -4,11 +4,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 import { LoginRequest, SignupRequest } from "../../utils/api";
 import { setAuthKey } from "../../utils/auth";
 import { setStorageItem } from "../../utils/storage_utils";
 import { SnowContainer } from "../../components/snow";
+import { ErrorMessage } from "../../components/error";
 
 const Auth = () => {
     const router = useRouter();
@@ -106,7 +106,7 @@ const Auth = () => {
                         placeholder='비밀번호를 입력해주세요.'
                         {...register("password", { required: true })}
                     />
-                    {error && <p className='ml-4 text-left text-red-400 text-md font-md'>{error}</p>}
+                    <ErrorMessage error={error} />
                 </div>
 
                 <div className='max-w-[600px] fixed  bottom-0 w-full flex flex-row items-center py-[0.75rem] px-[1rem]'>

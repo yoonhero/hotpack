@@ -7,19 +7,25 @@ import { BaseLayout } from "../../components/base_layout";
 import { Paper, PaperContent, LetterText } from "../../components/letter";
 import { TemperatureBox } from "../../components/temperature";
 import { SnowContainer } from "../../components/snow";
+import { PostMessage } from "../../utils/api";
+import { ErrorMessage } from "../../components/error";
 
 const WriteMessage = () => {
     const router = useRouter();
 
     const [hotpackID, setHotpackID] = useState("");
     const [hotpackName, setHotpackName] = useState("");
-    const [temperature, setTemperature] = useState(65);
+    const [temperature, setTemperature] = useState(0);
+    const [error, setError] = useState("");
 
     const { register, handleSubmit, getValues, setValue } = useForm();
     const componentRef = useRef();
 
     useEffect(() => {
         setHotpackID(router.query.uid);
+
+        setHotpackName(router.query.name);
+        setTemperature(router.query.temperature);
     }, [router]);
 
     useEffect(() => {
@@ -32,12 +38,16 @@ const WriteMessage = () => {
     }, [hotpackID]);
 
     const onValid = async () => {
-        const { card_text, writer } = getValues();
+        const { message, writer } = getValues();
 
         // TODO: API SERVER
-        const response = { temperature: 10 };
+        const response = PostMessage(hotpackId, writer, message);
 
-        router.push(`/hotpack/${hotpackID}?t=${response.temperature}`);
+        if (response.data.success) {
+            return router.push(`/hotpack/${hotpackID}?t=${response.data.temperature}`);
+        } else {
+            setError("다시 시도해주세요..");
+        }
     };
 
     return (
@@ -51,7 +61,7 @@ const WriteMessage = () => {
                     {/* 주인 */}
                     <div className=''>
                         <div>
-                            <span className='text-2xl md:text-4xl text-rose-500 font-extrabold'>{hotpackName}</span>
+                            <span className='text-2xl md:text-4xl text-rose-500 font-extrabold'>{hotpackName || "00"}</span>
                             <span className='text-xl md:text-3xl text-gray-600 font-semibold'>님의 핫팩</span>
                         </div>
 
@@ -60,7 +70,7 @@ const WriteMessage = () => {
                         </div>
                     </div>
 
-                    <TemperatureBox temperature={temperature} />
+                    <TemperatureBox temperature={temperature || 0} />
                 </div>
 
                 <div className='w-full mt-[2.4375rem]'>
@@ -76,9 +86,10 @@ const WriteMessage = () => {
                         </div>
                         <div className='mt-1 w-full h-[2px] bg-[#91d1d3]'></div>
                         <PaperContent>
-                            <LetterText placeholder='따뜻한 말을 적어주세요!' {...register("card_text", { required: true })} />
+                            <LetterText placeholder='따뜻한 말을 적어주세요!' {...register("message", { required: true })} />
                         </PaperContent>
                     </Paper>
+                    <ErrorMessage error={error} />
                 </div>
 
                 <div className='max-w-[600px] fixed  bottom-0 w-full flex flex-row items-center py-[0.75rem] px-[1rem]'>
@@ -89,7 +100,7 @@ const WriteMessage = () => {
                     </button>
 
                     <button onClick={handleSubmit(onValid)} className='cursor-pointer bg-[#ff5d56] w-full h-[3.5rem] rounded-[1rem]'>
-                        <span className='text-white text-md font-bold'>"{hotpackName}"에게 메세지 남기기</span>
+                        <span className='text-white text-md font-bold'>"{hotpackName || "00"}"에게 메세지 남기기</span>
                     </button>
                 </div>
             </BaseLayout>

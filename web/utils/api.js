@@ -107,4 +107,20 @@ const CreateOwnHotpack = async (token, hotpackName) => {
     }
 };
 
-export { LoginRequest, SignupRequest, GetUID, GetHotpackInfo, CreateOwnHotpack };
+const PostMessage = async (hotpackId, writer, message) => {
+    const data = {
+        hotpackId: hotpackId,
+        writer: writer,
+        message: message,
+    };
+
+    try {
+        const response = await axios.post(`${API_SERVER_URL}/hotpack/writer_message`, data);
+
+        return response;
+    } catch (e) {
+        return e;
+    }
+};
+
+export { LoginRequest, SignupRequest, GetUID, GetHotpackInfo, CreateOwnHotpack, PostMessage };
