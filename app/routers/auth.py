@@ -38,7 +38,7 @@ async def create_user(data: AuthModel):
 
     to_jwt_user = TokenData(**user_.dict())
 
-    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict()), "uid":user_uid}
+    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict()), "uid": user_uid}
 
 
 @router.post("/login", summary="Login")
@@ -51,17 +51,17 @@ async def login(data: AuthModel):
             detail="이메일을 확인해주세요."
         )
 
-    status = verify_password(data.password, user["hashed_password"])
+    status_ = verify_password(data.password, user["hashed_password"])
 
     to_jwt_user = TokenData(**user)
 
-    if not status:
+    if not status_:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="비밀번호를 확인해주세요."
         )
 
-    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict()), "uid":user["uid"]}
+    return {"success": True, "jwt": encode_user2jwt(to_jwt_user.dict()), "uid": user["uid"]}
 
 
 @router.post("/me", summary="ME")

@@ -7,9 +7,16 @@ const LoginRequest = async (email, password) => {
         email: email,
         password: password,
     };
-    const response = await axios.post(`${API_SERVER_URL}/auth/login`, data);
 
-    return response;
+    try {
+        const response = await axios.post(`${API_SERVER_URL}/auth/login`, data);
+
+        if (response.status === 200) {
+            return response;
+        }
+    } catch (error) {
+        return error;
+    }
 };
 
 const SignupRequest = async (email, password) => {
@@ -18,9 +25,15 @@ const SignupRequest = async (email, password) => {
         password: password,
     };
 
-    const response = await axios.post(`${API_SERVER_URL}/auth/signup`, data);
+    try {
+        const response = await axios.post(`${API_SERVER_URL}/auth/signup`, data);
 
-    return response;
+        if (response.status === 200) {
+            return response;
+        }
+    } catch (error) {
+        return error;
+    }
 };
 
 export { LoginRequest, SignupRequest };

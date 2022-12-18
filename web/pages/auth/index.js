@@ -27,23 +27,35 @@ const Auth = () => {
     }, [router]);
 
     const onValid = async () => {
+        setError("");
+
         const { email, password } = getValues();
 
         let result;
 
         if (mode === "login") {
             result = await LoginRequest(email, password);
-        } else if (mode == "singup") {
+        } else if (mode == "signup") {
+            if (password.length <= 6) {
+                setError("비밀번호는 6자리 이상이어야 합니다.");
+                return;
+            }
+
             result = await SignupRequest(email, password);
         }
 
-        if (result.data.success) {
+        if (result?.data?.success) {
             setAuthKey(result.data.jwt);
             setStorageItem("uid", result.data.uid);
+
+            router.push(`/hotpack/${result.data.uid}`);
+        } else {
+            setError(result.response.data.detail);
         }
     };
 
     const changeMode = (m) => {
+        setError("");
         setMode(m);
 
         setValue("email", "");
@@ -73,11 +85,11 @@ const Auth = () => {
                     </div>
                 </div>
 
-                <div className='mt-20 relative w-[80vw] md:w-[20.687rem] my-2'>
+                <div className='mt-20 relative w-[50vw] md:w-[20.687rem] my-2'>
                     <Image alt='HOTPACK' src={"/logo.PNG"} width={100} height={100} layout='responsive' objectFit='contain' priority />
                 </div>
 
-                <div className='mt-10 w-[80vw] md:w-[20.687rem] mb-20'>
+                <div className='mt-10 w-[80vw] md:w-[20.687rem]'>
                     <label className='m-2 text-2xl font-extrabold'>{mode == "login" ? "로그인" : "회원가입"}</label>
                     <input
                         className='w-full m-2 py-4 px-5 outline-none text-xl font-bold text-gray-600 text-center border border-2 rounded-2xl border-gray-200 bg-gray-100'
@@ -92,8 +104,7 @@ const Auth = () => {
                         placeholder='비밀번호를 입력해주세요.'
                         {...register("password", { required: true })}
                     />
-
-                    {error && <p className='text-red-400 text-xl font-md'>{error}</p>}
+                    {error && <p className='ml-4 text-left text-red-400 text-md font-md'>{error}</p>}
                 </div>
 
                 <div className='max-w-[600px] fixed  bottom-0 w-full flex flex-row items-center py-[0.75rem] px-[1rem]'>

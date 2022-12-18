@@ -44,7 +44,6 @@ const SnowContainer = () => {
 
     function snowDrop(num, position, intViewportWidth) {
         if (num > 0) {
-            console.log(intViewportWidth);
             var dropEle = document.createElement("div");
 
             dropEle.className = "drop snow";
@@ -72,7 +71,6 @@ const SnowContainer = () => {
         if (intViewport.width == undefined) {
             return;
         }
-        console.log(intViewport.width);
         snowDrop(150, randomInt(0, intViewport.width), intViewport.width);
         snow(150, 100);
     }, [intViewport]);
