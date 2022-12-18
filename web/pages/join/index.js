@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { SnowContainer } from "../../components/snow";
+import { CreateOwnHotpack } from "../../utils/api";
+import { getAuthKey } from "../../utils/auth";
 
 const Join = () => {
     const router = useRouter();
@@ -14,10 +16,13 @@ const Join = () => {
 
         console.log(hotpackName);
 
-        // TODO: API SERVER
-        const response = { temperature: 10 };
+        const jwt_token = getAuthKey();
 
-        router.push(`/hotpack/${hotpackID}`);
+        const response = await CreateOwnHotpack(jwt_token, hotpackName);
+
+        if (response.data.success) {
+            router.push(`/hotpack/${response.data.uid}`);
+        }
     };
 
     return (

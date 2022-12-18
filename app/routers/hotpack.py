@@ -45,7 +45,7 @@ async def updateHotpackName(editData: UpdateHotpackModel, current_user: User = D
     db["users"].update_one({"email": authUserEmail}, {
                            "$set": {"hotpackName": editData.hotpackName, "temperature": 0, "messages": [], "count": 0}})
 
-    return {"success": True}
+    return {"success": True, "uid": authUserID}
 
 
 @router.post("/write_message")
