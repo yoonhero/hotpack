@@ -37,12 +37,13 @@ const SignupRequest = async (email, password) => {
 };
 
 const GetUID = async (token) => {
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
     try {
-        let config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
         const response = await axios.get(`${API_SERVER_URL}/auth/me`, config);
 
         return response;
@@ -51,4 +52,39 @@ const GetUID = async (token) => {
     }
 };
 
-export { LoginRequest, SignupRequest, GetUID };
+// const ValidateUserJWTandUID = async (token, uid) => {
+//     let config = {
+//         params: {
+//             uid: uid,
+//         },
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//         },
+//     };
+
+//     try {
+//         const response = await axios.get(`${API_SERVER_URL}/auth/validate`, config);
+
+//         return response;
+//     } catch (e) {
+//         return e;
+//     }
+// };
+
+const GetHotpackInfo = async (uid) => {
+    let config = {
+        params: {
+            uid: uid,
+        },
+    };
+
+    try {
+        const response = await axios.get(`${API_SERVER_URL}/hotpack/`, config);
+
+        return response;
+    } catch (e) {
+        return e;
+    }
+};
+
+export { LoginRequest, SignupRequest, GetUID, GetHotpackInfo };

@@ -9,22 +9,60 @@ import { handleCopyClipBoard } from "../../utils/clipboard";
 import { TemperatureBox } from "../../components/temperature";
 import { Thermometer } from "../../components/thermometer";
 import { SnowContainer } from "../../components/snow";
+import { getAuthKey } from "../../utils/auth";
+import { getStorageItem, setStorageItem } from "../../utils/storage_utils";
+import { GetHotpackInfo, GetUID } from "../../utils/api";
 
 const HotPack = () => {
     const router = useRouter();
 
     const [isOwner, setIsOwner] = useState(false);
     const [hotpackID, setHotpackID] = useState("");
-    const [hotpackName, setHotPackName] = useState("윤승현");
+    const [hotpackName, setHotpackName] = useState("");
     const [temperature, setTemperature] = useState(undefined);
-    const [messageCount, setMessageCount] = useState(100);
+    const [messageCount, setMessageCount] = useState(0);
     const [hotpackImg, setHotpackImg] = useState("");
     const [modal, setModal] = useState(false);
+
+    const initHotpackInfo = async () => {
+        const response = GetHotpackInfo();
+
+        const h_name = response.data.hotpackName;
+        const h_temp = response.data.temperature;
+        const h_count = response.data.count;
+
+        setHotpackName(h_name);
+        setTemperature(h_temp);
+        setMessageCount(h_count);
+    };
 
     useEffect(() => {
         setHotpackID(router.query.uid);
         setTemperature(100);
-    }, []);
+
+        initHotpackInfo();
+    }, [router]);
+
+    const validateTokenAndUID = async () => {
+        if (hotpackID == "" || !hotpackID) {
+            return;
+        }
+
+        const jwt_token = getAuthKey();
+        const uid = getStorageItem("uid");
+
+        const response = await GetUID(jwt_token);
+
+        const uid_ = response.data.me.uid;
+
+        setIsOwner(uid == uid_);
+
+        setStorageItem("uid", uid_);
+    };
+
+    useEffect(() => {
+        validateTokenAndUID();
+    }, [hotpackID]);
 
     useEffect(() => {
         if (temperature == undefined) {

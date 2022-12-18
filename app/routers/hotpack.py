@@ -77,6 +77,7 @@ async def hotpackInfo(data: GetHotpackModel):
     messageOwner = db["users"].find_one({"uid": id})
 
     hotpackInfo = {
+        "hotpackName": messageOwner["hotpackName"],
         "temperature": messageOwner["temperature"],
         "count": messageOwner["count"]
     }

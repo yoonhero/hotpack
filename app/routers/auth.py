@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 from ..configs import SECRET_KEY
 from ..auth_bearer import get_current_user
-from ..models import AuthModel, TokenData, User, UserInDB
+from ..models import AuthModel, TokenData, User, UserInDB, ValidateModel
 from ..utils import get_hashed_password, encode_user2jwt, verify_password, decode_jwt2user
 from ..database import db
 
@@ -70,3 +70,10 @@ async def read_users_me(current_user: User = Depends(get_current_user)):
     return {"me": current_user.dict()}
 
 # @router.post("/uid", summary="GET UID TOKEN")
+
+
+# @router.get("/validate", summary="Validate User Token and User UID")
+# async def validate_token_and_uid(data: ValidateModel, current_user: User = Depends(get_current_user)):
+#     status_ = current_user.uid == data.uid
+
+#     return {"status": status_, "uid":current_user.uid}

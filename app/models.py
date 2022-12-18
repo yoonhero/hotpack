@@ -46,3 +46,6 @@ class Message(BaseModel):
     temperature: int
     createdAt: datetime.datetime
     uid: str
+
+class ValidateModel(BaseModel):
+    uid: str

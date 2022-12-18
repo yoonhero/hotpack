@@ -15,8 +15,6 @@ export default function Home() {
         const jwt_token = getAuthKey();
         const uid = getStorageItem("uid");
 
-        console.log(jwt_token, uid);
-
         if (jwt_token && uid) {
             router.push(`/hotpack/${uid}`);
         } else if (jwt_token) {
@@ -26,6 +24,7 @@ export default function Home() {
             router.push(`/hotpack/${response.data.me.uid}`);
         } else if (uid) {
             deleteStorageItem("uid");
+            router.push(`/auth?mode=login`);
         } else {
             router.push(`/auth?mode=signup`);
         }
