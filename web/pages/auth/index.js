@@ -101,7 +101,13 @@ const Auth = () => {
                         className='w-full m-2 py-4 px-5 outline-none text-xl font-bold text-gray-600 text-center border border-2 rounded-2xl border-gray-200 bg-gray-100'
                         type='email'
                         placeholder='이메일을 입력해주세요.'
-                        {...register("email", { required: true })}
+                        {...register("email", {
+                            required: true,
+                            pattern: {
+                                value: /\S+@\S+\.\S+/,
+                                message: "제대로 된 이메일 주소를 입력해주세요.",
+                            },
+                        })}
                     />
 
                     <input

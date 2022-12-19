@@ -29,8 +29,6 @@ const HotPack = () => {
     const initHotpackInfo = async () => {
         const response = await GetHotpackInfo(hotpackID);
 
-        console.log(response);
-
         const h_name = response.data.hotpackName;
         const h_temp = response.data.temperature;
         const h_count = response.data.count;
@@ -162,12 +160,20 @@ const HotPack = () => {
                             </>
                         ) : (
                             // 주인이 들어왔을 때
-                            <Button bgColor='bg-gray-500' onClickFunction={() => handleCopyClipBoard(window.location.href)}>
-                                <div className='flex flex-row items-center justify-center gap-2'>
-                                    <Image width={25} height={25} src='/clipboard.svg' />
-                                    <span className='font-semibold'>내 핫팩 링크 복사하기</span>
-                                </div>
-                            </Button>
+                            <div className='flex flex-col items-center w-full gap-2'>
+                                <Button bgColor='bg-gray-500' onClickFunction={() => handleCopyClipBoard(window.location.href)}>
+                                    <div className='flex flex-row items-center justify-center gap-2'>
+                                        <Image width={25} height={25} src='/clipboard.svg' />
+                                        <span className='font-semibold'>내 핫팩 링크 복사하기</span>
+                                    </div>
+                                </Button>
+                                <Button
+                                    bgColor='bg-[#ff5d56]'
+                                    onClickFunction={() => router.push(`/hotpack/${router.query.uid}/all`)}
+                                    disabled={temperature < 100}>
+                                    <span className='font-semibold'>{temperature < 100 ? "100도가 넘으면 볼 수 있어요!" : "따뜻한 말 확인하러 가기"}</span>
+                                </Button>
+                            </div>
                         )}
                     </div>
                 </BaseLayout>

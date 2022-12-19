@@ -74,8 +74,6 @@ def write(data: MessagePostModel):
 async def hotpackInfo(uid: str):
     id = uid
 
-    print(id)
-
     messageOwner = db["users"].find_one({"uid": id})
 
     hotpackInfo = {
@@ -100,6 +98,9 @@ async def allHotpackMessages(current_user: User = Depends(get_current_user)):
             detail="유저가 존재하지 않습니다."
         )
 
+    if user["temperature"] < 10:
+        return {"success": False}
+
     messageIds = user["messages"]
 
     messages = db["messages"].find({"uid": {"$in": messageIds}},    {'_id': 0})
@@ -109,4 +110,4 @@ async def allHotpackMessages(current_user: User = Depends(get_current_user)):
     for m in messages:
         ms.append(m)
 
-    return {"messages": ms}
+    return {"success": True, "messages": ms}

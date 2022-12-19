@@ -120,4 +120,20 @@ const PostMessage = async (hotpackId, writer, message) => {
     }
 };
 
-export { LoginRequest, SignupRequest, GetUID, GetHotpackInfo, CreateOwnHotpack, PostMessage };
+const GetAllMessages = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    try {
+        const response = await axios.get(`${API_SERVER_URL}/hotpack/all`, config);
+
+        return response;
+    } catch (e) {
+        return e;
+    }
+};
+
+export { LoginRequest, SignupRequest, GetUID, GetHotpackInfo, CreateOwnHotpack, PostMessage, GetAllMessages };

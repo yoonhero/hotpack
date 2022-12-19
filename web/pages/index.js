@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { BaseLayout } from "../components/base_layout";
+import { Loading } from "../components/loading";
 import { SnowContainer } from "../components/snow";
 import { GetUID } from "../utils/api";
 import { getAuthKey } from "../utils/auth";
@@ -36,17 +37,18 @@ export default function Home() {
 
     return (
         <>
+            <SnowContainer />
             <Head>
                 <title>핫팩을 데워주세요!!</title>
             </Head>
             <BaseLayout>
-                <SnowContainer />
-                <div className='mt-20 relative w-[70vw] md:w-[20.687rem] my-2 flex flex-col gap-10 items-center justify-center'>
+                {/* <div className='mt-20 relative w-[70vw] md:w-[20.687rem] my-2 flex flex-col gap-10 items-center justify-center'>
                     <Image alt='HOTPACK' src={"/logo.PNG"} width={100} height={100} layout='responsive' objectFit='contain' priority />
                     <h1 className='text-3xl font-bold text-gray-800'>핫팩!?</h1>
 
                     <span className='text-xl font-md text-gray-600 animate-ping'>로딩중...</span>
-                </div>
+                </div> */}
+                <Loading />
             </BaseLayout>
         </>
     );

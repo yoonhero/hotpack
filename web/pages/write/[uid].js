@@ -20,7 +20,14 @@ const WriteMessage = () => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
-    const { register, handleSubmit, getValues, setValue } = useForm();
+    const {
+        register,
+        handleSubmit,
+        getValues,
+        setValue,
+        watch,
+        formState: { errors },
+    } = useForm();
     const componentRef = useRef();
 
     useEffect(() => {
@@ -90,12 +97,12 @@ const WriteMessage = () => {
                                 <input
                                     placeholder='작성자'
                                     className='bg-transparent font-bold w-full h-[40px] py-0 px-0 text-xl text-gray-600 outline-none'
-                                    {...register("writer", { required: true })}
+                                    {...register("writer", { required: true, minLength: 1 })}
                                 />
                             </div>
                             <div className='mt-1 w-full h-[2px] bg-[#91d1d3]'></div>
                             <PaperContent>
-                                <LetterText placeholder='따뜻한 말을 적어주세요!' {...register("message", { required: true })} />
+                                <LetterText placeholder='따뜻한 말을 적어주세요!' {...register("message", { required: true, minLength: 1 })} />
                             </PaperContent>
                         </Paper>
                         <ErrorMessage error={error} />
@@ -108,7 +115,10 @@ const WriteMessage = () => {
                             <span className='text-gray-500 text-md font-bold'>이전</span>
                         </button>
 
-                        <button onClick={handleSubmit(onValid)} className='cursor-pointer bg-[#ff5d56] w-full h-[3.5rem] rounded-[1rem]'>
+                        <button
+                            onClick={handleSubmit(onValid)}
+                            className='cursor-pointer bg-[#ff5d56] w-full h-[3.5rem] rounded-[1rem] disabled:opacity-50'
+                            disabled={!(watch("writer") && watch("message"))}>
                             <span className='text-white text-md font-bold'>"{hotpackName || "00"}"에게 메세지 남기기</span>
                         </button>
                     </div>
