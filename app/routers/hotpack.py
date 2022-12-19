@@ -98,14 +98,14 @@ async def allHotpackMessages(page: int, limit: int, current_user: User = Depends
             detail="유저가 존재하지 않습니다."
         )
 
-    if user["temperature"] < 10:
+    if user["temperature"] < 100:
         return {"success": False}
 
     messageIds = user["messages"]
 
     try:
         messages = db["messages"].find({"uid": {"$in": messageIds}}, {
-                                    '_id': 0}).skip((page - 1)*limit).limit(limit)
+            '_id': 0}).skip((page - 1)*limit).limit(limit)
 
         ms = []
 

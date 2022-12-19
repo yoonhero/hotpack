@@ -8,6 +8,7 @@ import Image from "next/image";
 import { SnowContainer } from "../../../components/snow";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import axios from "axios";
+import { LetterText, Paper, PaperContent } from "../../../components/letter";
 
 const SeeAllMessages = () => {
     const router = useRouter();
@@ -17,6 +18,8 @@ const SeeAllMessages = () => {
     const [messages, setMessages] = useState([]);
 
     const [targetMsg, setTargetMsg] = useState("");
+    const [targetWriter, setTargetWriter] = useState("");
+    const [targetTemp, setTargetTemp] = useState(0);
     const [modal, setModal] = useState("");
 
     const [isFetching, setIsFetching] = useState(false);
@@ -91,6 +94,32 @@ const SeeAllMessages = () => {
                 <title>따뜻한 말 확인하기!</title>
             </Head>
             <BaseLayout>
+                {modal && (
+                    <div
+                        onClick={() => setModal(false)}
+                        className='fixed top-0 left-0 z-10 flex flex-col items-center justify-center w-screen h-screen overflow-x-hidden overflow-y-auto md:inset-0 modal'>
+                        <div className='shadow flex flex-col items-center justify-center z-20 p-20 top-[20vh] w-[300px] h-[300px] rounded-full bg-[#E3E3E3] shadow-lg shadow-red-300px/50 '>
+                            <div className='w-[95vw] mt-[2.4375rem]'>
+                                <Paper>
+                                    <div className=' h-[85px] flex flex-row items-end justify-between px-[40px] md:px-[90px] '>
+                                        <div className='flex flex-row items-center justify-center gap-2'>
+                                            <h1 className='text-center items-center  font-sans text-2xl font-bold text-gray-700 l-2'>보내는 사람:</h1>
+
+                                            <span className='bg-transparent font-bold   py-0 px-0 text-xl text-gray-600 outline-none'>{targetWriter}</span>
+                                        </div>
+
+                                        <span>{"🔥".repeat(targetTemp)}</span>
+                                    </div>
+                                    <div className='mt-1 w-full h-[2px] bg-[#91d1d3]'></div>
+                                    <PaperContent>
+                                        <LetterText value={targetMsg} />
+                                    </PaperContent>
+                                </Paper>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {lock ? (
                     <div className='bg-gray-100 text-2xl font-bold flex flex-col gap-10 w-full h-screen items-center justify-center'>
                         <div className='relative w-[70vw] md:w-[20.687rem] my-2'>
@@ -120,6 +149,8 @@ const SeeAllMessages = () => {
                                         ref={lastElementRef}
                                         onClick={() => {
                                             setTargetMsg(m.message);
+                                            setTargetWriter(m.writer);
+                                            setTargetTemp(m.temperature);
                                             setModal(true);
                                         }}
                                         key={i}
