@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import { getAuthKey } from "../../../utils/auth";
 import { BaseLayout } from "../../../components/base_layout";
 import Head from "next/head";
-import { GetAllMessages } from "../../../utils/api";
+import { GetFirstMessages } from "../../../utils/api";
 import Image from "next/image";
 import { SnowContainer } from "../../../components/snow";
+import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
+import axios from "axios";
 
 const SeeAllMessages = () => {
     const router = useRouter();
@@ -14,9 +16,14 @@ const SeeAllMessages = () => {
     const [lock, setLock] = useState(true);
     const [messages, setMessages] = useState([]);
 
-    const [pagination, setPagination] = useState(0);
     const [targetMsg, setTargetMsg] = useState("");
     const [modal, setModal] = useState("");
+
+    const [isFetching, setIsFetching] = useState(false);
+    const [page, setPage] = useState(0);
+    const [HasMore, setHasMore] = useState(true);
+
+    const [lastElementRef] = useInfiniteScroll(HasMore ? loadMoreItems : () => {}, isFetching);
 
     useEffect(() => {
         if (router.query.uid) {
@@ -31,7 +38,7 @@ const SeeAllMessages = () => {
 
         const jwt_token = getAuthKey();
 
-        const response = await GetAllMessages(jwt_token);
+        const response = await GetFirstMessages(jwt_token);
 
         try {
             if (!response.data.success) {
@@ -42,6 +49,7 @@ const SeeAllMessages = () => {
             setLock(false);
 
             setMessages(response.data.messages);
+            setPage((prevPage) => prevPage + 1);
         } catch (e) {
             return;
         }
@@ -50,6 +58,31 @@ const SeeAllMessages = () => {
     useEffect(() => {
         seeMessage();
     }, [hotpackID]);
+
+    function loadMoreItems() {
+        setIsFetching(true);
+
+        const jwt_token = getAuthKey();
+        //using axios to access the third party API
+        axios({
+            method: "GET",
+            url: `${process.env.NEXT_PUBLIC_API_LINK}/hotpack/all`,
+            params: { page: page + 1, limit: 12 },
+            headers: { Authorization: "Bearer " + jwt_token },
+        })
+            .then((res) => {
+                console.log(res);
+                setMessages((prevItems) => {
+                    return [...new Set([...prevItems, ...res.data.messages])];
+                });
+                setPage((prevPageNumber) => prevPageNumber + 1);
+                setHasMore(res.data.length > 0);
+                setIsFetching(false);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
 
     return (
         <>
@@ -77,33 +110,37 @@ const SeeAllMessages = () => {
 
                         <div className='my-5 grid grid-cols-3 md:grid-cols-4 grid-flow-row gap-4'>
                             {messages.map((m, i) => {
-                                if (i < (pagination + 1) * 12 && i >= pagination * 12) {
-                                    return (
+                                // if (i < (pagination + 1) * 12 && i >= pagination * 12) {
+                                //     return (
+
+                                //     );
+                                // }
+                                return (
+                                    <div
+                                        ref={lastElementRef}
+                                        onClick={() => {
+                                            setTargetMsg(m.message);
+                                            setModal(true);
+                                        }}
+                                        key={i}
+                                        className='relative flex items-center justify-center w-[80px] h-[100px] md:w-[120px] md:h-[150px] rounded-md bg-white shadow-lg shadow-gray-100/200 border border-2  border-gray-500 hover:bg-gray-200 hover:text-gray-900'>
                                         <div
-                                            onClick={() => {
-                                                setTargetMsg(m.message);
-                                                setModal(true);
-                                            }}
-                                            key={i}
-                                            className='relative flex items-center justify-center w-[80px] h-[100px] md:w-[120px] md:h-[150px] rounded-md bg-white shadow-lg shadow-gray-100/200 border border-2  border-gray-500 hover:bg-gray-200 hover:text-gray-900'>
-                                            <div
-                                                className={`absolute ${
-                                                    m.temperature == 5
-                                                        ? "text-center w-[120px] text-md top-[-15px] md:max-w-[140px] md:text-2xl md:top-[-18px]"
-                                                        : m.temperature == 4
-                                                        ? "text-center max-w-[80px] text-md top-[-15px] md:max-w-[120px] md:text-2xl md:top-[-17px]"
-                                                        : "text-2xl top-[-12px] md:text-4xl md:top-[-20px]"
-                                                }`}>
-                                                {"🔥".repeat(m.temperature)}
-                                            </div>
-                                            <span className='cursor-pointer text-gray-600 font-semibold text-2xl'>{m.writer}</span>
+                                            className={`absolute ${
+                                                m.temperature == 5
+                                                    ? "text-center w-[120px] text-md top-[-15px] md:max-w-[140px] md:text-2xl md:top-[-18px]"
+                                                    : m.temperature == 4
+                                                    ? "text-center max-w-[80px] text-md top-[-15px] md:max-w-[120px] md:text-2xl md:top-[-17px]"
+                                                    : "text-2xl top-[-12px] md:text-4xl md:top-[-20px]"
+                                            }`}>
+                                            {"🔥".repeat(m.temperature)}
                                         </div>
-                                    );
-                                }
+                                        <span className='cursor-pointer text-gray-600 font-semibold text-2xl'>{m.writer}</span>
+                                    </div>
+                                );
                             })}
                         </div>
 
-                        <div className='flex flex-row m-4'>
+                        {/* <div className='flex flex-row m-4'>
                             {pagination - 1 >= 0 && (
                                 <button
                                     onClick={() => setPagination(pagination - 1)}
@@ -130,7 +167,7 @@ const SeeAllMessages = () => {
                                     </svg>
                                 </button>
                             )}
-                        </div>
+                        </div> */}
                     </>
                 )}
             </BaseLayout>

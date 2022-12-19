@@ -120,10 +120,14 @@ const PostMessage = async (hotpackId, writer, message) => {
     }
 };
 
-const GetAllMessages = async (token) => {
+const GetFirstMessages = async (token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
+        },
+        params: {
+            page: 1,
+            limit: 12,
         },
     };
 
@@ -136,4 +140,4 @@ const GetAllMessages = async (token) => {
     }
 };
 
-export { LoginRequest, SignupRequest, GetUID, GetHotpackInfo, CreateOwnHotpack, PostMessage, GetAllMessages };
+export { LoginRequest, SignupRequest, GetUID, GetHotpackInfo, CreateOwnHotpack, PostMessage, GetFirstMessages };

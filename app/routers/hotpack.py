@@ -86,7 +86,7 @@ async def hotpackInfo(uid: str):
 
 
 @router.get("/all", summary="Watch Hotpack Messages for Owner")
-async def allHotpackMessages(current_user: User = Depends(get_current_user)):
+async def allHotpackMessages(page: int, limit: int, current_user: User = Depends(get_current_user)):
     authUserEmail = current_user.email
     authUserID = current_user.uid
 
@@ -103,11 +103,15 @@ async def allHotpackMessages(current_user: User = Depends(get_current_user)):
 
     messageIds = user["messages"]
 
-    messages = db["messages"].find({"uid": {"$in": messageIds}},    {'_id': 0})
+    try:
+        messages = db["messages"].find({"uid": {"$in": messageIds}}, {
+                                    '_id': 0}).skip((page - 1)*limit).limit(limit)
 
-    ms = []
+        ms = []
 
-    for m in messages:
-        ms.append(m)
+        for m in messages:
+            ms.append(m)
 
-    return {"success": True, "messages": ms}
+        return {"success": True, "messages": ms}
+    except:
+        return {"success": False}
