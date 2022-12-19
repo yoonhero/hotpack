@@ -13,6 +13,7 @@ import { getAuthKey } from "../../utils/auth";
 import { getStorageItem, setStorageItem } from "../../utils/storage_utils";
 import { GetHotpackInfo, GetUID } from "../../utils/api";
 import { Loading } from "../../components/loading";
+import Link from "next/link";
 
 const HotPack = () => {
     const router = useRouter();
@@ -127,7 +128,7 @@ const HotPack = () => {
 
                             <div>
                                 <span className='text-md font-bold text-gray-600'>
-                                    <span className='text-xl font-bold text-red-400'>"{messageCount}"</span>개의 따뜻한 메세지가 도착했어요!
+                                    <span className='text-xl font-bold text-red-400'>{`"${messageCount}"`}</span>개의 따뜻한 메세지가 도착했어요!
                                 </span>
                             </div>
                         </div>
@@ -175,6 +176,19 @@ const HotPack = () => {
                                 </Button>
                             </div>
                         )}
+                    </div>
+                    <div className='mt-5'>
+                        <div className='flex flex-row gap-2 animate-bounce text-gray-600 text-sm'>
+                            Copyright 2022 ©{" "}
+                            <Link href='https://instagram.com/yoonhero06'>
+                                <p className='cursor-pointer font-bold text-md text-gray-800'>Yoonhero</p>
+                            </Link>
+                        </div>
+                        <div>
+                            <Link href='https://instagram.com/yoonhero06'>
+                                <p className='text-center cursor-pointer font-thin text-md text-gray-700'>오류 DM 문의 부탁드려요.</p>
+                            </Link>
+                        </div>
                     </div>
                 </BaseLayout>
             )}

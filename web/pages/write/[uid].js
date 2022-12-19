@@ -10,6 +10,7 @@ import { SnowContainer } from "../../components/snow";
 import { PostMessage } from "../../utils/api";
 import { ErrorMessage } from "../../components/error";
 import { Loading } from "../../components/loading";
+import Link from "next/link";
 
 const WriteMessage = () => {
     const router = useRouter();
@@ -106,6 +107,20 @@ const WriteMessage = () => {
                             </PaperContent>
                         </Paper>
                         <ErrorMessage error={error} />
+                    </div>
+
+                    <div className='mt-20'>
+                        <div className='flex flex-row gap-2 animate-bounce text-gray-600 text-sm'>
+                            <span>{`Copyright 2022 ©`}</span>
+                            <Link href='https://instagram.com/yoonhero06'>
+                                <p className='cursor-pointer font-bold text-md text-gray-800'>Yoonhero</p>
+                            </Link>
+                        </div>
+                        <div>
+                            <Link href='https://instagram.com/yoonhero06'>
+                                <p className='text-center cursor-pointer font-thin text-md text-gray-700'>오류 DM 문의 부탁드려요.</p>
+                            </Link>
+                        </div>
                     </div>
 
                     <div className='max-w-[600px] fixed  bottom-0 w-full flex flex-row items-center py-[0.75rem] px-[1rem]'>

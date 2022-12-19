@@ -9,6 +9,7 @@ import { setAuthKey } from "../../utils/auth";
 import { setStorageItem } from "../../utils/storage_utils";
 import { SnowContainer } from "../../components/snow";
 import { ErrorMessage } from "../../components/error";
+import Link from "next/link";
 
 const Auth = () => {
     const router = useRouter();
@@ -117,6 +118,20 @@ const Auth = () => {
                         {...register("password", { required: true })}
                     />
                     <ErrorMessage error={error} />
+                </div>
+
+                <div className='my-5'>
+                    <div className='flex flex-row gap-2 animate-bounce text-gray-600 text-sm'>
+                        Copyright 2022 ©{" "}
+                        <Link href='https://instagram.com/yoonhero06'>
+                            <p className='cursor-pointer font-bold text-md text-gray-800'>Yoonhero</p>
+                        </Link>
+                    </div>
+                    <div>
+                        <Link href='https://instagram.com/yoonhero06'>
+                            <p className='text-center cursor-pointer font-thin text-md text-gray-700'>오류 DM 문의 부탁드려요.</p>
+                        </Link>
+                    </div>
                 </div>
 
                 <div className='max-w-[600px] fixed  bottom-0 w-full flex flex-row items-center py-[0.75rem] px-[1rem]'>
