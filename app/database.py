@@ -5,7 +5,7 @@ from .configs import MONGODB_URL, PORT
 print(MONGODB_URL)
 
 client = MongoClient(MONGODB_URL)
-db = client.test
+db = client.production
 
 
 async def get_user_from_db(email, uid):
