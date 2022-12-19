@@ -8,6 +8,7 @@ import { Loading } from "../components/loading";
 import { SnowContainer } from "../components/snow";
 import { GetUID } from "../utils/api";
 import { getAuthKey } from "../utils/auth";
+import { SearchEngine, SearchSEO } from "../utils/SearchSEO";
 import { deleteStorageItem, getStorageItem, setStorageItem } from "../utils/storage_utils";
 
 export default function Home() {
@@ -40,8 +41,10 @@ export default function Home() {
         <>
             <SnowContainer />
             <Head>
-                <title>핫팩을 데워주세요!!</title>
+                <title>핫팩을 데워주세요?! 🔥</title>
                 <Icon />
+                <SearchEngine />
+                <SearchSEO />
             </Head>
             <BaseLayout>
                 {/* <div className='mt-20 relative w-[70vw] md:w-[20.687rem] my-2 flex flex-col gap-10 items-center justify-center'>

@@ -7,6 +7,7 @@ import { SnowContainer } from "../../components/snow";
 import { CreateOwnHotpack } from "../../utils/api";
 import { getAuthKey } from "../../utils/auth";
 import Icon from "../../components/icon";
+import { SearchEngine, SearchSEO } from "../../utils/SearchSEO";
 
 const Join = () => {
     const router = useRouter();
@@ -30,6 +31,8 @@ const Join = () => {
             <Head>
                 <title>반가워요~:)</title>
                 <Icon />
+                <SearchSEO />
+                <SearchEngine />
             </Head>
             <BaseLayout>
                 <div className=' w-[80vw] md:w-[20.687rem]  overflow-hidden bg-gray-200 flex flex-row items-center justify-around rounded-2xl shadow-sm shadow-gray-500/40'>

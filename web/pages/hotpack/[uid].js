@@ -15,6 +15,7 @@ import { GetHotpackInfo, GetUID } from "../../utils/api";
 import { Loading } from "../../components/loading";
 import Link from "next/link";
 import Icon from "../../components/icon";
+import { SearchEngine, SearchSEO } from "../../utils/SearchSEO";
 
 const HotPack = () => {
     const router = useRouter();
@@ -106,8 +107,10 @@ const HotPack = () => {
         <>
             <SnowContainer />
             <Head>
-                <title>{`${hotpackName || "00"}님의 핫팩` || "핫팩 🔥"}</title>
+                <title>{hotpackName ? `${hotpackName || "00"}님의 핫팩` : "핫팩을 데워주세요?! 🔥"}</title>
                 <Icon />
+                <SearchSEO />
+                <SearchEngine />
             </Head>
             {loading ? (
                 <Loading />

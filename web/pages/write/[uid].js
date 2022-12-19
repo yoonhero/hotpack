@@ -12,6 +12,7 @@ import { ErrorMessage } from "../../components/error";
 import { Loading } from "../../components/loading";
 import Link from "next/link";
 import Icon from "../../components/icon";
+import { SearchEngine, SearchSEO } from "../../utils/SearchSEO";
 
 const WriteMessage = () => {
     const router = useRouter();
@@ -69,8 +70,10 @@ const WriteMessage = () => {
         <>
             <SnowContainer />
             <Head>
-                <title>{`${hotpackName}님의 핫팩` || "핫팩 🔥"}</title>
+                <title>{hotpackName ? `${hotpackName}님의 핫팩` : "핫팩을 데워주세요?! 🔥"}</title>
                 <Icon />
+                <SearchEngine />
+                <SearchSEO />
             </Head>
             {loading ? (
                 <Loading />

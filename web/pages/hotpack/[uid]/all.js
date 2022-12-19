@@ -10,6 +10,7 @@ import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import axios from "axios";
 import { LetterText, Paper, PaperContent } from "../../../components/letter";
 import Icon from "../../../components/icon";
+import { SearchEngine, SearchSEO } from "../../../utils/SearchSEO";
 
 const SeeAllMessages = () => {
     const router = useRouter();
@@ -91,8 +92,10 @@ const SeeAllMessages = () => {
         <>
             <SnowContainer />
             <Head>
-                <title>따뜻한 말을 확인해봐요?!</title>
+                <title>핫팩을 데워주세요?! 🔥 - 따뜻한 말을 확인하기!</title>
                 <Icon />
+                <SearchEngine />
+                <SearchSEO />
             </Head>
             <BaseLayout>
                 {modal && (
