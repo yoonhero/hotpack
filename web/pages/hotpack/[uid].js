@@ -86,7 +86,7 @@ const HotPack = () => {
 
         for (let i = 0; i < hotpackImgs.length; i++) {
             if (temperature <= hotpackImgs[i]) {
-                setHotpackImg(`/${hotpackImgFileName[i]}.gif`);
+                setHotpackImg(`/hotpackimg/${hotpackImgFileName[i]}.gif`);
                 break;
             }
         }
