@@ -77,7 +77,6 @@ const GetHotpackInfo = async (uid) => {
     try {
         const response = await axios.get(`${API_SERVER_URL}/hotpack/`, data);
 
-        console.log(response);
         return response;
     } catch (e) {
         return e;

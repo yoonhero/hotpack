@@ -74,7 +74,6 @@ const SeeAllMessages = () => {
             headers: { Authorization: "Bearer " + jwt_token },
         })
             .then((res) => {
-                console.log(res);
                 setMessages((prevItems) => {
                     return [...new Set([...prevItems, ...res.data.messages])];
                 });
