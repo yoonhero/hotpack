@@ -67,6 +67,11 @@ const HotPack = () => {
 
         const uid_ = response?.data?.me?.uid;
 
+        if (uid_ == undefined) {
+            setLoading(true);
+            return;
+        }
+
         setIsOwner(hotpackID == uid_);
 
         setStorageItem("uid", uid_);
