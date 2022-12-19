@@ -134,7 +134,7 @@ const WriteMessage = () => {
                             onClick={handleSubmit(onValid)}
                             className='cursor-pointer bg-[#ff5d56] w-full h-[3.5rem] rounded-[1rem] disabled:opacity-50'
                             disabled={!(watch("writer") && watch("message"))}>
-                            <span className='text-white text-md font-bold'>"{hotpackName || "00"}"에게 메세지 남기기</span>
+                            <span className='text-white text-md font-bold'>{`"${hotpackName || "00"}"`}에게 메세지 남기기</span>
                         </button>
                     </div>
                 </BaseLayout>
