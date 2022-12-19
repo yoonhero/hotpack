@@ -11,6 +11,7 @@ import { PostMessage } from "../../utils/api";
 import { ErrorMessage } from "../../components/error";
 import { Loading } from "../../components/loading";
 import Link from "next/link";
+import Icon from "../../components/icon";
 
 const WriteMessage = () => {
     const router = useRouter();
@@ -69,6 +70,7 @@ const WriteMessage = () => {
             <SnowContainer />
             <Head>
                 <title>{`${hotpackName}님의 핫팩` || "핫팩 🔥"}</title>
+                <Icon />
             </Head>
             {loading ? (
                 <Loading />

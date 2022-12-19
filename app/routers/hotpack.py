@@ -76,13 +76,19 @@ async def hotpackInfo(uid: str):
 
     messageOwner = db["users"].find_one({"uid": id})
 
-    hotpackInfo = {
-        "hotpackName": messageOwner["hotpackName"],
-        "temperature": messageOwner["temperature"],
-        "count": messageOwner["count"]
-    }
+    try:
+        hotpackInfo = {
+            "hotpackName": messageOwner["hotpackName"],
+            "temperature": messageOwner["temperature"],
+            "count": messageOwner["count"]
+        }
 
-    return hotpackInfo
+        return hotpackInfo
+    except:
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="잘못된 핫팩 ID입니다."
+        )
 
 
 @router.get("/all", summary="Watch Hotpack Messages for Owner")

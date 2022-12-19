@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { BaseLayout } from "../components/base_layout";
+import Icon from "../components/icon";
 import { Loading } from "../components/loading";
 import { SnowContainer } from "../components/snow";
 import { GetUID } from "../utils/api";
@@ -40,6 +41,7 @@ export default function Home() {
             <SnowContainer />
             <Head>
                 <title>핫팩을 데워주세요!!</title>
+                <Icon />
             </Head>
             <BaseLayout>
                 {/* <div className='mt-20 relative w-[70vw] md:w-[20.687rem] my-2 flex flex-col gap-10 items-center justify-center'>

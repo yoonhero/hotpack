@@ -6,6 +6,7 @@ import Image from "next/image";
 import { SnowContainer } from "../../components/snow";
 import { CreateOwnHotpack } from "../../utils/api";
 import { getAuthKey } from "../../utils/auth";
+import Icon from "../../components/icon";
 
 const Join = () => {
     const router = useRouter();
@@ -28,6 +29,7 @@ const Join = () => {
             <SnowContainer />
             <Head>
                 <title>반가워요~:)</title>
+                <Icon />
             </Head>
             <BaseLayout>
                 <div className=' w-[80vw] md:w-[20.687rem]  overflow-hidden bg-gray-200 flex flex-row items-center justify-around rounded-2xl shadow-sm shadow-gray-500/40'>

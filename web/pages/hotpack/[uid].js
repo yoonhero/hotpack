@@ -14,6 +14,7 @@ import { getStorageItem, setStorageItem } from "../../utils/storage_utils";
 import { GetHotpackInfo, GetUID } from "../../utils/api";
 import { Loading } from "../../components/loading";
 import Link from "next/link";
+import Icon from "../../components/icon";
 
 const HotPack = () => {
     const router = useRouter();
@@ -101,6 +102,7 @@ const HotPack = () => {
             <SnowContainer />
             <Head>
                 <title>{`${hotpackName}님의 핫팩` || "핫팩 🔥"}</title>
+                <Icon />
             </Head>
             {loading ? (
                 <Loading />

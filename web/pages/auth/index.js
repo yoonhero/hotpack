@@ -10,6 +10,7 @@ import { setStorageItem } from "../../utils/storage_utils";
 import { SnowContainer } from "../../components/snow";
 import { ErrorMessage } from "../../components/error";
 import Link from "next/link";
+import Icon from "../../components/icon";
 
 const Auth = () => {
     const router = useRouter();
@@ -73,6 +74,7 @@ const Auth = () => {
             <SnowContainer />
             <Head>
                 <title>핫팩에 오신 걸 환영해요!</title>
+                <Icon />
             </Head>
             <BaseLayout>
                 <div className=' w-[80vw] md:w-[20.687rem]  overflow-hidden bg-gray-200 flex flex-row items-center justify-around rounded-2xl shadow-sm shadow-gray-500/40'>

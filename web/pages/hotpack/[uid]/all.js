@@ -9,6 +9,7 @@ import { SnowContainer } from "../../../components/snow";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import axios from "axios";
 import { LetterText, Paper, PaperContent } from "../../../components/letter";
+import Icon from "../../../components/icon";
 
 const SeeAllMessages = () => {
     const router = useRouter();
@@ -90,7 +91,8 @@ const SeeAllMessages = () => {
         <>
             <SnowContainer />
             <Head>
-                <title>따뜻한 말 확인하기!</title>
+                <title>따뜻한 말을 확인해봐요?!</title>
+                <Icon />
             </Head>
             <BaseLayout>
                 {modal && (
