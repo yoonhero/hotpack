@@ -64,7 +64,7 @@ const HotPack = () => {
         const jwt_token = getAuthKey();
 
         if (jwt_token == undefined || hotpackID == undefined) {
-            return router.push("/auth");
+            return;
         }
 
         const response = await GetUID(jwt_token);
