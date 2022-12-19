@@ -7,7 +7,7 @@ const NaverAnalystics = () => {
             <Script strategy='afterInteractive'>
                 {`
                   if (!wcs_add) var wcs_add = {};
-                  wcs_add['wa'] = '178642c44a41200';
+                  wcs_add['wa'] = '1840becc42aebf0';
                   if (window.wcs) {
                       wcs_do();
                   }
