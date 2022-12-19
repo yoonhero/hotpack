@@ -31,6 +31,10 @@ const HotPack = () => {
     const initHotpackInfo = async () => {
         const response = await GetHotpackInfo(hotpackID);
 
+        if (response.data.hotpackName == undefined) {
+            return router.push("/auth");
+        }
+
         const h_name = response.data.hotpackName;
         const h_temp = response.data.temperature;
         const h_count = response.data.count;
@@ -60,17 +64,12 @@ const HotPack = () => {
         const jwt_token = getAuthKey();
 
         if (jwt_token == undefined || hotpackID == undefined) {
-            return;
+            return router.push("/auth");
         }
 
         const response = await GetUID(jwt_token);
 
         const uid_ = response?.data?.me?.uid;
-
-        if (uid_ == undefined) {
-            setLoading(true);
-            return;
-        }
 
         setIsOwner(hotpackID == uid_);
 
