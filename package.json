@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@vercel/analytics": "^0.1.6",
+    "react-redux": "^8.0.5",
+    "react-snowfall": "^1.2.1"
+  }
+}

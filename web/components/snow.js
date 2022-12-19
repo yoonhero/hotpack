@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 import Script from "next/script";
 import { useEffect } from "react";
 import { useWindowSize } from "../utils/windowSize";
+import Snowfall from "react-snowfall";
 
 const snow_fall = keyframes`
  0% {
@@ -27,7 +28,7 @@ const snow = styled.div`
     opacity: 0;
 `;
 
-const SnowContainer = () => {
+const PrevSnowContainer = () => {
     const intViewport = useWindowSize();
     function snow(num, speed) {
         if (num > 0) {
@@ -76,6 +77,15 @@ const SnowContainer = () => {
     }, [intViewport]);
 
     return <div></div>;
+};
+
+const SnowContainer = () => {
+    return (
+        // <div style={{ height: 400, width: 400, background: "#282c34", position: "relative" }}>
+        //     {/* <Snowfall /> */}
+        // </div>
+        <div></div>
+    );
 };
 
 export { SnowContainer };

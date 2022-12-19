@@ -106,7 +106,7 @@ const HotPack = () => {
         <>
             <SnowContainer />
             <Head>
-                <title>{`${hotpackName}님의 핫팩` || "핫팩 🔥"}</title>
+                <title>{`${hotpackName || "00"}님의 핫팩` || "핫팩 🔥"}</title>
                 <Icon />
             </Head>
             {loading ? (
