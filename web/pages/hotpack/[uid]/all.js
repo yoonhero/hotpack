@@ -174,7 +174,12 @@ const SeeAllMessages = () => {
                                             }`}>
                                             {"🔥".repeat(m.temperature)}
                                         </div>
-                                        <span className='cursor-pointer text-gray-600 font-semibold text-xl md:text-2xl'>{m.writer}</span>
+                                        <span
+                                            className={`cursor-pointer text-gray-600 font-semibold   ${
+                                                m.writer.length <= 5 ? "md:text-2xl text-xl" : "md:text-xl text-md"
+                                            }`}>
+                                            {m.writer}
+                                        </span>
                                     </div>
                                 );
                             })}
