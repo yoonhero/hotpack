@@ -109,15 +109,21 @@ async def allHotpackMessages(page: int, limit: int, current_user: User = Depends
 
     messageIds = user["messages"]
 
+    hasMore = len(messageIds) > page * limit
+    # messageIds = user["messages"][(page-1)*limit:page*limit]
+
+    # print(page, limit, len(messageIds))
+
     try:
         messages = db["messages"].find({"uid": {"$in": messageIds}}, {
             '_id': 0}).skip((page - 1)*limit).limit(limit)
+        # messages = db["messages"].find({"uid":{"$in": messageIds}}, )
 
         ms = []
 
         for m in messages:
             ms.append(m)
 
-        return {"success": True, "messages": ms}
+        return {"success": True, "messages": ms, "hasMore": hasMore}
     except:
         return {"success": False}

@@ -165,14 +165,17 @@ const HotPack = () => {
                                     </div>
                                 </Button>
 
-                                <Button bgColor='' txtColor='text-gray-800' onClickFunction={() => router.push("/auth")}>
+                                <Button bgColor='' txtColor='text-gray-800' onClickFunction={() => router.push("/auth?mode=signup")}>
                                     <span className='font-semibold'>나도 핫팩 만들기</span>
                                 </Button>
                             </>
                         ) : (
                             // 주인이 들어왔을 때
                             <div className='flex flex-col items-center w-full gap-2'>
-                                <Button bgColor='bg-gray-500' onClickFunction={() => handleCopyClipBoard(window.location.href)}>
+                                <Button
+                                    bgColor='bg-gray-500'
+                                    onClickFunction={() => handleCopyClipBoard(window.location.href)}
+                                    hover='md:hover:scale-[1.1] md:hover:bg-gray-600'>
                                     <div className='flex flex-row items-center justify-center gap-2'>
                                         <Image width={25} height={25} src='/clipboard.svg' />
                                         <span className='font-semibold'>내 핫팩 링크 복사하기</span>

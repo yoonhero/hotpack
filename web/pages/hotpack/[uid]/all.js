@@ -76,11 +76,12 @@ const SeeAllMessages = () => {
             headers: { Authorization: "Bearer " + jwt_token },
         })
             .then((res) => {
+                // console.log(res, res.data.hasMore);
                 setMessages((prevItems) => {
                     return [...new Set([...prevItems, ...res.data.messages])];
                 });
                 setPage((prevPageNumber) => prevPageNumber + 1);
-                setHasMore(res.data.length > 0);
+                setHasMore(res.data.hasMore > 0);
                 setIsFetching(false);
             })
             .catch((e) => {
@@ -107,16 +108,20 @@ const SeeAllMessages = () => {
                                 <Paper>
                                     <div className=' h-[85px] flex flex-row items-end justify-between px-[40px] md:px-[90px] '>
                                         <div className='flex flex-row items-center justify-center gap-2'>
-                                            <h1 className='text-center items-center  font-sans text-2xl font-bold text-gray-700 l-2'>보내는 사람:</h1>
+                                            <h1 className='text-center items-center  font-sans text-xl md:text-2xl font-bold text-gray-700 l-2'>
+                                                보내는 사람:
+                                            </h1>
 
-                                            <span className='bg-transparent font-bold   py-0 px-0 text-xl text-gray-600 outline-none'>{targetWriter}</span>
+                                            <span className='bg-transparent font-bold   py-0 px-0 text-md md:text-xl text-gray-600 outline-none'>
+                                                {targetWriter}
+                                            </span>
                                         </div>
 
                                         <span>{"🔥".repeat(targetTemp)}</span>
                                     </div>
                                     <div className='mt-1 w-full h-[2px] bg-[#91d1d3]'></div>
                                     <PaperContent>
-                                        <LetterText value={targetMsg} />
+                                        <LetterText defaultValue={targetMsg} />
                                     </PaperContent>
                                 </Paper>
                             </div>
@@ -134,7 +139,7 @@ const SeeAllMessages = () => {
                 ) : (
                     <>
                         <div className='w-full flex flex-col justify-center items-center'>
-                            <h1 className='mt-10 text-4xl md:text-5xl font-extrabold text-gray-800'>- 따뜻한 메세지!! 🔥 -</h1>
+                            <h1 className='mt-10 text-3xl md:text-5xl font-extrabold text-gray-800'>- 따뜻한 메세지!! 🔥 -</h1>
                             <span className='font-thin text-gray-600 break-all text-md my-4'>100도를 달성하셨어요!</span>
                         </div>
                         <div className='relative w-[80vw] md:w-[40.687rem] my-2'>
@@ -164,12 +169,12 @@ const SeeAllMessages = () => {
                                                 m.temperature == 5
                                                     ? "text-center w-[120px] text-md top-[-15px] md:max-w-[140px] md:text-2xl md:top-[-18px]"
                                                     : m.temperature == 4
-                                                    ? "text-center max-w-[80px] text-md top-[-15px] md:max-w-[120px] md:text-2xl md:top-[-17px]"
+                                                    ? "text-center max-w-[120px] text-md top-[-15px] md:max-w-[120px] md:text-2xl md:top-[-17px]"
                                                     : "text-2xl top-[-12px] md:text-4xl md:top-[-20px]"
                                             }`}>
                                             {"🔥".repeat(m.temperature)}
                                         </div>
-                                        <span className='cursor-pointer text-gray-600 font-semibold text-2xl'>{m.writer}</span>
+                                        <span className='cursor-pointer text-gray-600 font-semibold text-xl md:text-2xl'>{m.writer}</span>
                                     </div>
                                 );
                             })}

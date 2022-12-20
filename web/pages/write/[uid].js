@@ -95,7 +95,7 @@ const WriteMessage = () => {
                         <TemperatureBox temperature={temperature || 0} />
                     </div>
 
-                    <div className='w-[95vw] mt-[2.4375rem]'>
+                    <div className='w-[90%] mt-[2.4375rem]'>
                         <Paper onSubmit={handleSubmit(onValid)} ref={componentRef}>
                             <div className='h-[85px] flex flex-row items-end justify-around pl-[40px] md:pl-[90px] '>
                                 <h1 className='text-center items-center min-w-[8rem] font-sans text-2xl h-[40px] font-bold text-red-400 l-2'>보내는 사람:</h1>
