@@ -125,7 +125,7 @@ const Auth = () => {
                     <ErrorMessage error={error} />
                 </div>
 
-                <div className='my-5'>
+                <div className='mt-5'>
                     <div className='flex flex-row gap-2 animate-bounce text-gray-600 text-sm'>
                         Copyright 2022 ©{" "}
                         <Link href='https://instagram.com/yoonhero06'>

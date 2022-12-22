@@ -65,7 +65,7 @@ def write(data: MessagePostModel):
     new_message = db["messages"].insert_one(message.dict())
 
     db["users"].update_one({"uid": data.hotpackId}, {
-        '$push': {'messages': message_uid}, '$inc': {"count": 1, "temperature": temperature}}, upsert=True)
+        '$push': {'messages': message_uid}, '$inc': {"count": 1, "temperature": temperature*2}}, upsert=True)
 
     return {"success": True, "temperature": temperature}
 
