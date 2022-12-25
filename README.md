@@ -16,6 +16,11 @@
 
 ![temp](https://i.imgur.com/rkIgnQj.png)
 
+## Plan
+
+-   [ ] KoBert으로 감정인식 인공지능 성능 향상
+-   [ ] 이번 겨울에 방문자 10만명 목표
+
 ## License
 
 GNU 3.0
